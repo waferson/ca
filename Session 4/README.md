@@ -11,3 +11,4 @@ The topic of this session is **Customer Lifetime**. This repository includes the
 
  - [readr cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
  - [dplyr cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)
+ - [Another R example for CLV](https://github.com/rtheman/CLV)
