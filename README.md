@@ -33,7 +33,7 @@ We will use R and Rstudio. In some sessions we will use additional packages for 
 
   - Download Rstudio Desktop from https://www.rstudio.com/products/rstudio/download/#download (in our case version 1.1.453)
 
-** Optional **
+**Optional**
 
 If you want to knit PDF files, it is recommended to install MikTex or MacTex, distributions for LaTex.
 
