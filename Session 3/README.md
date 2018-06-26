@@ -11,3 +11,7 @@ The topic of this session is **R**. We will introduce R and RStudio. This reposi
 ## References
 
   - [ggplot2 cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
+  - How to load data:
+    - csv, tsv, fwf files: [readr](https://readr.tidyverse.org)
+    - xls, xlsx files: [readxl](https://readxl.tidyverse.org)
+    - sas, spss, stata files: [haven](https://haven.tidyverse.org)
