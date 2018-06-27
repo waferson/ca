@@ -18,5 +18,6 @@ The topic of this session is **R**. We will introduce R and RStudio. This reposi
   - How to keep you updated about R:
     - [R-bloggers](https://www.r-bloggers.com)
     - [CRANberries](http://dirk.eddelbuettel.com/cranberries/)
+    - [Awesome R](https://awesome-r.com)
   - [ggplot2](https://ggplot2.tidyverse.org)
   - [ggplot2 extensions](http://www.ggplot2-exts.org)
