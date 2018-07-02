@@ -39,3 +39,10 @@ If you want to knit PDF files, it is recommended to install MikTex or MacTex, di
 
   - [Mac] You can download the distribution for Windows from [https://www.tug.org/mactex/](https://www.tug.org/mactex/).
   - [Windows] You can download the distribution for Mac from [https://www.tug.org/mactex/](https://www.tug.org/mactex/).
+  
+## DataCamp  
+
+This class is supported by DataCamp, the most intuitive learning platform for data science. Learn R, Python and SQL the way you learn best through a combination of short expert videos and hands-on-the-keyboard exercises. Take over 100+ courses by expert instructors on topics such as importing data, data visualization or machine learning and learn faster through immediate and personalised feedback on every exercise.
+
+![Source: WhereScape](images/DataCamp_Horizontal_RGB-d196011f63ebda76dc5c9772425cf9541b8639af842d5e5476ef10f2460ed1e4.png | width=252)
+
