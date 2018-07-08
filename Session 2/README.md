@@ -22,3 +22,9 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
   - [Tidyverse](https://www.tidyverse.org)  
     - [ggplot2](https://ggplot2.tidyverse.org)
     - [ggplot2 extensions](http://www.ggplot2-exts.org)
+  - Recommended Books and guides:
+    - [Kieran Healy, H. 2018. Data Visualization: A practical introduction. Princeton](http://socviz.co)
+    - [Data + Design](https://infoactive.co/data-design/titlepage01.html)
+    - [Visualizing Data](http://www.visualisingdata.com/resources/)
+    - [The Extreme Presentation™ Method](https://extremepresentation.com)
+
