@@ -28,3 +28,4 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
     - [Visualizing Data](http://www.visualisingdata.com/resources/)
     - [The Extreme Presentation™ Method](https://extremepresentation.com)
     - [from Data to Viz](https://www.data-to-viz.com)
+    - [R Markdown: the definitive guide](https://bookdown.org/yihui/rmarkdown/)
