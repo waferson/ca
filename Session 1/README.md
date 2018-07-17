@@ -22,3 +22,5 @@ The topic of this session is **Customer Analytics**. This repository includes th
  - [A visual introduction to machine learning](http://www.r2d3.us/visual-intro-to-machine-learning-part-1/)
  - [Model Tuning and the Bias-Variance Tradeoff](http://www.r2d3.us/visual-intro-to-machine-learning-part-2/)
  - [Explained Visually, a Setosa project](http://setosa.io/ev/)
+ - [Google's Seedbank](http://tools.google.com/seedbank/)
+ - [Google's Distill](https://distill.pub)
