@@ -1,0 +1,29 @@
+---
+title: "CA - Session 2 - Exercises"
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+---
+
+# Homework exercises
+
+- Create two variables and multiply them
+
+- Create a sequence with the first 50 even numbers 
+
+- Install the package tidyverse. Check the description of this package and explain why it is an interesting library.
+
+- Which packages are included in tidyverse?
+
+- Create a variable called my_variable that contains the word "TRUE". Determine the class of the object my_variable.
+
+- Transform my_variable as a logical variable. Determine the class of the object my_variable.
+
+- Create a vector (called student) to hold the data of student: name, email, intake and nationaly. Access the element with the name “email”
+
+- Create a dataframe (called students) to the data of several students: name, email, intake and nationaly. Access the element with the name “email”
+
+- Create a vector of coefficients, called coeffs, using the sample function. Here, we draw a sample of size 5 from −100, . . . , 100 without replacement
+
+- Determine the lenght of coeffs
