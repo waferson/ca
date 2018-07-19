@@ -1,0 +1,38 @@
+---
+title: "CA - S3 - Exercises"
+output:
+  html_notebook:
+    toc: yes
+    toc_float: yes
+---
+
+# Homework Exercises
+
+- Create a function that will return the value of $z$ as a point in the plane $ax+by+c$ where:
+    - a is the coefficent of $x$ (and it has value 3).
+    - b is the coefficent of $y$ (and it has value 4).
+    - c is the $z$-intercept of the plane (and it has value -1). 
+
+- Measure the value of $z$ in the plane when $(x,y)= (2,1)$
+
+- Create a vector with five names: Helena, Anthony, Thomas, Henry, Harriet. Write a loop that prints the name and the position of the name in the following sentence: This is <name> and the position in the vector is <position>.  
+
+- Rewrite the previous loop with a function.
+
+- Load the datasets package. Load the AirPassengers dataset. Determine the class of the dataset.
+
+- Apply summary to the object. What do you observe?
+
+- Plot AirPassengers with the instruction plot(). What do you observe?
+
+- Install and load the ggfortify package. Plot AirPassengers using the function autoplot(). Can you observe any different with the previous plot?
+
+- Install and load the changepoint and magrittr package. Search the function cpt.meanvar in the changepoint library, describe its goal and why it can be relevant when we analyze time series.
+
+- Execute the following instruction:
+
+AirPassengers %>%
+  changepoint:: cpt.meanvar() %>%  # Identify change points
+  autoplot()
+  
+Can you explain the output?
