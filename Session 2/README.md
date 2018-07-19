@@ -5,7 +5,9 @@
 The topic of this session is **R**. We will introduce [R](https://www.r-project.org) and [RStudio](https://www.rstudio.com). This repository includes the content discussed in class:
 
   - keynote
-  - scripts and exercises
+  - exercises and solutions
+  - homework
+  - book
   
 ## References
 
