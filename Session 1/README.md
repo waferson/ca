@@ -4,6 +4,7 @@
 
 The topic of this session is **Customer Analytics**. This repository includes the content discussed in class:
 
+  - articles
   - keynote
   - book
 
