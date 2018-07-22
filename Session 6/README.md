@@ -4,5 +4,8 @@
 
 The topic of this session is **NPS**. This repository includes the content discussed in class:
 
-  - article
-  - exercises and scripts
+  - technical note
+  - exercises
+  - solutions
+  - homework
+  - articles

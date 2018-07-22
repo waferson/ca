@@ -4,8 +4,11 @@
 
 The topic of this session is **Cohort Analysis**. This repository includes the content discussed in class:
 
-  - article
-  - example
+  - technical note
+  - exercises
+  - solutions
+  - homework
+  - alternatives
 
 ## Main Concepts
 

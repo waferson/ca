@@ -4,8 +4,10 @@
 
 The topic of this session is **Churn Analysis**. This repository includes the content discussed in class:
 
-  - article
-  - example
+  - technical note
+  - exercises
+  - solutions
+  - homework
 
 ## Main Concepts
 

@@ -4,5 +4,7 @@
 
 The topic of this session is **RFM**. This repository includes the content discussed in class:
 
-  - article
-  - exercises and scripts
+  - technical note
+  - exercises
+  - solutions
+  - homework

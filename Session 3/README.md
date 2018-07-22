@@ -4,11 +4,11 @@
 
 The topic of this session is **R**. We will introduce [R](https://www.r-project.org) and [RStudio](https://www.rstudio.com). This repository includes the content discussed in class:
 
-  - article
-  - exercises and solutions
   - keynote
-  - homework
   - technical note
+  - exercises
+  - solutions
+  - homework
 
 ## References
 

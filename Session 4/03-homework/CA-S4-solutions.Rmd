@@ -1,0 +1,26 @@
+---
+title: "CA - S4: homework"
+author: Josep Curto
+date: 2018
+output: 
+  html_notebook: 
+    fig_caption: yes
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+---
+
+# Exercises
+
+ - Load "s4-homework.xlsx" from the "data"" folder using the package readxl as df variable.
+ - Use the function str() to understand the content of the file. What do you observe?
+ - Use the function summary(). What do you observe?
+ - Predicting futureMargin based on the other attributes.
+    - Install and load the library GGally.
+    - Apply the function ggcorr() to create the correlation matrix for df. What do you observe?
+    - Search the lm() function using the help. Discover how to use this function.
+    - Use lm() function to create a regression between futureMargin and nOrders. Save as "model1" variable.
+    - Explore model1 using summary(). Is it a good model? Check R-squared.
+    - Install and load the library ggfortify.  
+    - Use autoplot() function in model1
+    - Use lm() function to create a regression for futureMargin based on nOrders and daysSinceLastOrder. Save as "model2" variable. Is this model better? Check R-squared again.
