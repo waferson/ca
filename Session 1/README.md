@@ -25,3 +25,4 @@ The topic of this session is **Customer Analytics**. This repository includes th
  - [Explained Visually, a Setosa project](http://setosa.io/ev/)
  - [Google's Seedbank](http://tools.google.com/seedbank/)
  - [Google's Distill](https://distill.pub)
+ - [Google's Machine Learning Guides](https://developers.google.com/machine-learning/guides/)
