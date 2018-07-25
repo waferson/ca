@@ -8,3 +8,4 @@ The topic of this session is **Customer Segmentation**. This repository includes
   - exercises
   - solutions
   - homework
+  - articles
