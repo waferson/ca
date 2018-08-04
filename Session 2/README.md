@@ -22,6 +22,7 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
     - [R-bloggers](https://www.r-bloggers.com)
     - [CRANberries](http://dirk.eddelbuettel.com/cranberries/)
     - [Awesome R](https://awesome-r.com)
+    - [RStudio webinars](https://github.com/rstudio/webinars)
   - [Tidyverse](https://www.tidyverse.org)  
     - [ggplot2](https://ggplot2.tidyverse.org)
     - [ggplot2 extensions](http://www.ggplot2-exts.org)
