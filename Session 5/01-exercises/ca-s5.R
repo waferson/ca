@@ -3,7 +3,7 @@
 # Customer Analytics
 # S5 - RFM Analysis
 # @JosepCurto | jcurto@faculty.ie.edu | 2018
-# Version: 1.9
+# Version: 2.0
 #############################################################################
 
 # Clear console
@@ -23,7 +23,7 @@ rm(list=ls())
 if(length(.packages[!.inst]) > 0) suppressMessages(install.packages(.packages[!.inst]))
 
 # Load packages into session 
-suppressMessages(lapply(.packages, require, character.only=TRUE))
+suppressMessages(lapply(.packages, library, character.only=TRUE))
 
 # Load external functions
 source("RFM.R")
@@ -99,4 +99,4 @@ ggplot(dfRFM, aes(factor(RFM_Score),fill =factor(segment))) +
 # Question: what we can observe?
 
 # Let's keep the outcome
-write.csv(dfRFM,"RFM.csv")
+write.csv(dfRFM,"data/RFM.csv")

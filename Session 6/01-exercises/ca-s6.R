@@ -3,7 +3,7 @@
 # Customer Analytics
 # S5 - NPS
 # @JosepCurto | jcurto@faculty.ie.edu | 2018
-# Version: 1.8
+# Version: 1.9
 #############################################################################
 
 # Clear console
@@ -23,7 +23,7 @@ rm(list=ls())
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-lapply(.packages, require, character.only=TRUE)
+lapply(.packages, library, character.only=TRUE)
 
 # Data Set generation
 x <- sample(0:10, prob=c(0.02, 0.01, 0.01, 0.01, 0.01, 0.03, 0.03, 0.09,

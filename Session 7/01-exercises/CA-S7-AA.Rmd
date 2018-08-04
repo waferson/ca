@@ -28,7 +28,7 @@ rm(list=ls())
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-lapply(.packages, require, character.only=TRUE)
+lapply(.packages, library, character.only=TRUE)
 ```
 
 ## Loading data

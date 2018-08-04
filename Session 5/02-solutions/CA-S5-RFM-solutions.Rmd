@@ -1,5 +1,5 @@
 ---
-title: "CA - S5: Example"
+title: "CA - S5: solutions"
 author: Josep Curto, IE Business School
 abstract: "This document introduces how to calculate RFM with R and how to create and understand customer segments based on RFM."
 keywords: "r, rfm"
@@ -27,7 +27,7 @@ We will use readr, dplyr and ggplot2 packages.
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-lapply(.packages, suppressPackageStartupMessages(require), character.only=TRUE)
+lapply(.packages, suppressPackageStartupMessages(library), character.only=TRUE)
 ```
 
 ## Load functions
@@ -239,69 +239,23 @@ ggplot(dfRFM, aes(factor(RFM_Score),fill =factor(segmentMonetary))) +
 ```{r ultimate-segmentation}
 dfRFM$segment[which(dfRFM$RFM_Score == 555)] <- "Champions"
 
-dfRFM$segment[which(dfRFM$RFM_Score == 444 | 
-                      dfRFM$RFM_Score == 445 | 
-                      dfRFM$RFM_Score == 454 |
-                      dfRFM$RFM_Score == 455 |
-                      dfRFM$RFM_Score == 544 |
-                      dfRFM$RFM_Score == 545 |
-                      dfRFM$RFM_Score == 334 |
-                      dfRFM$RFM_Score == 335 |
-                      dfRFM$RFM_Score == 345 |
-                      dfRFM$RFM_Score == 355)] <- "Loyal Customers"
+dfRFM$segment[which(dfRFM$RFM_Score %in% c(444, 445, 454, 455, 544, 545, 334, 335, 345, 355))] <- "Loyal Customers"
 
-dfRFM$segment[which(dfRFM$RFM_Score == 431 | 
-                      dfRFM$RFM_Score == 432 | 
-                      dfRFM$RFM_Score == 433 |
-                      dfRFM$RFM_Score == 434 |
-                      dfRFM$RFM_Score == 435)] <- "Potential Loyalist"
+dfRFM$segment[which(dfRFM$RFM_Score %in% c(431, 432, 433, 434, 435))] <- "Potential Loyalist"
 
-dfRFM$segment[which(dfRFM$RFM_Score == 413 | 
-                      dfRFM$RFM_Score == 414 | 
-                      dfRFM$RFM_Score == 415 |
-                      dfRFM$RFM_Score == 513 |
-                      dfRFM$RFM_Score == 514 |
-                      dfRFM$RFM_Score == 515 |
-                      dfRFM$RFM_Score == 421 |
-                      dfRFM$RFM_Score == 422 |
-                      dfRFM$RFM_Score == 423)] <- "New Customers"  
+dfRFM$segment[which(dfRFM$RFM_Score %in% c(413, 414, 415, 513, 514, 515, 421, 422, 423))] <- "New Customers"  
   
-dfRFM$segment[which(dfRFM$RFM_Score == 411 | 
-                      dfRFM$RFM_Score == 412 | 
-                      dfRFM$RFM_Score == 511 |
-                      dfRFM$RFM_Score == 512)] <- "Promising"  
+dfRFM$segment[which(dfRFM$RFM_Score %in% c(411, 412, 511, 512))] <- "Promising"  
 
-dfRFM$segment[which(dfRFM$RFM_Score == 223 | 
-                      dfRFM$RFM_Score == 232 | 
-                      dfRFM$RFM_Score == 233 |
-                      dfRFM$RFM_Score == 322 |
-                      dfRFM$RFM_Score == 323 |
-                      dfRFM$RFM_Score == 332 |
-                      dfRFM$RFM_Score == 333 |
-                      dfRFM$RFM_Score == 321 |
-                      dfRFM$RFM_Score == 311)] <- "Customers Needing Attention"  
+dfRFM$segment[which(dfRFM$RFM_Score %in% c(223, 232, 233, 322, 323, 332, 333, 321, 311))] <- "Customers Needing Attention"  
 
-dfRFM$segment[which(dfRFM$RFM_Score == 211 | 
-                      dfRFM$RFM_Score == 212 | 
-                      dfRFM$RFM_Score == 221 |
-                      dfRFM$RFM_Score == 222 |
-                      dfRFM$RFM_Score == 123 |
-                      dfRFM$RFM_Score == 133 |
-                      dfRFM$RFM_Score == 134)] <- "About To Sleep"  
+dfRFM$segment[which(dfRFM$RFM_Score %in% c(211, 212, 221, 222, 123, 133, 134))] <- "About To Sleep"  
 
-dfRFM$segment[which(dfRFM$RFM_Score == 144 | 
-                      dfRFM$RFM_Score == 244)] <- "At Risk"  
+dfRFM$segment[which(dfRFM$RFM_Score %in% c(144, 244))] <- "At Risk"  
   
-dfRFM$segment[which(dfRFM$RFM_Score == 145 | 
-                      dfRFM$RFM_Score == 155 | 
-                      dfRFM$RFM_Score == 245 |
-                      dfRFM$RFM_Score == 255)] <- "Can’t Lose Them"  
+dfRFM$segment[which(dfRFM$RFM_Score %in% c(145, 155, 245, 255))] <- "Can’t Lose Them"  
   
-dfRFM$segment[which(dfRFM$RFM_Score == 112 | 
-                      dfRFM$RFM_Score == 121 | 
-                      dfRFM$RFM_Score == 122 | 
-                      dfRFM$RFM_Score == 131 | 
-                      dfRFM$RFM_Score == 132)] <- "Hibernating"
+dfRFM$segment[which(dfRFM$RFM_Score %in% c(112, 121, 122, 131, 132))] <- "Hibernating"
 
 dfRFM$segment[which(dfRFM$RFM_Score == 111)] <- "Lost"
   

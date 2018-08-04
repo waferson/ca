@@ -1,5 +1,5 @@
 ---
-title: "CA - Session 2 - Exercises"
+title: "CA - Session 2: exercises"
 output:
   html_document:
     df_print: paged
@@ -49,7 +49,7 @@ student[1]
 
 # Class Exercises 2
 
-- Load the test dataset. Use: load("dataTB.rdatq")
+- Load the test dataset. Use: load("data/dataTB.rdatq"). Check the name of the new variable in the Environment.
 
 - What is the median of the final price?
 

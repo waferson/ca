@@ -1,0 +1,19 @@
+---
+title: "CA - S5: homework"
+author: Josep Curto
+date: 2018
+output: 
+  html_notebook: 
+    fig_caption: yes
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+---
+
+# Exercises
+
+ - Given the dataset "s5-homework.xlsx" in the data folder, apply the RFM analysis.
+ - How many customer do we have per RFM group?
+ - What can you explain about this company?
+ 
+ > Attention: when using the previous code, remember to place the RFM code in the right folder.

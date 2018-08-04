@@ -1,5 +1,5 @@
 ---
-title: "CA - S3 - Solutions"
+title: "CA - S3: solutions"
 Author: Josep Curto, IE Business School 
 output:
   html_notebook:
@@ -239,10 +239,10 @@ print(issubset(c(3, 5, 7, 4), a))
 
 # Bonus Exercises (II)
 
-- Load s3.cvs
+- Load s3.cvs from the *data* folder
 
 ```{r}
-customerData <- read.csv("s3.csv")
+customerData <- read.csv("data/s3.csv")
 customerData 
 ```
 
@@ -261,5 +261,3 @@ library(dplyr)
 countTransactions <- count(customerData, customerID)
 countTransactions
 ```
-
-

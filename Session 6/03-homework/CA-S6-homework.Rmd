@@ -1,0 +1,15 @@
+---
+title: "CA - S6: homework"
+author: Josep Curto
+date: 2018
+output: 
+  html_notebook: 
+    fig_caption: yes
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+---
+
+# Exercises
+
+Given the data set "nps_homework.xlsx", can you calculate the NPS?

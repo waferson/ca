@@ -1,5 +1,5 @@
 ---
-title: "CA - S3 - Exercises"
+title: "CA - S3: homework"
 output:
   html_notebook:
     toc: yes
@@ -19,9 +19,9 @@ output:
 
 - Rewrite the previous loop with a function.
 
-- Load the datasets package. Load the AirPassengers dataset. Determine the class of the dataset.
+- Load the *datasets* package. Load the AirPassengers dataset. Determine the class of the dataset.
 
-- Apply summary to the object. What do you observe?
+- Apply summary to the AirPassengers dataset. What do you observe?
 
 - Plot AirPassengers with the instruction plot(). What do you observe?
 
@@ -29,7 +29,7 @@ output:
 
 - Install and load the changepoint and magrittr package. Search the function cpt.meanvar in the changepoint library, describe its goal and why it can be relevant when we analyze time series.
 
-- Execute the following instruction:
+- Execute the following instruction in the console:
 
 AirPassengers %>%
   changepoint:: cpt.meanvar() %>%  # Identify change points

@@ -1,5 +1,5 @@
 ---
-title: "CA - Session 2 - Exercises"
+title: "CA - Session 2: homework"
 output:
   html_document:
     df_print: paged

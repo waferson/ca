@@ -1,5 +1,5 @@
 ---
-title: "CA - S2 - Solutions"
+title: "CA - S2: solutions"
 output:
   html_notebook:
     theme: default
@@ -85,9 +85,9 @@ total.vector
 
 # Class Exercises 2
 
-- Load the test dataset. Use: load("dataTB.rdatq")
+- Load the test dataset. Use: load("data/dataTB.rdatq"). Check the name of the new variable in the Environment.
 ```{r}
-load("dataTB.rdatq")
+load("data/dataTB.rdatq")
 ```
 
 - What is the median of the final price?

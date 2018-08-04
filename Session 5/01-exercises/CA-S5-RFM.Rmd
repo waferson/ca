@@ -1,5 +1,5 @@
 ---
-title: "CA - S5: Example"
+title: "CA - S5: exercises"
 author: Josep Curto, IE Business School
 abstract: "This document introduces how to calculate RFM with R and how to create and understand customer segments based on RFM."
 keywords: "r, rfm"

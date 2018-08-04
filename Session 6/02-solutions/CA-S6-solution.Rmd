@@ -113,7 +113,7 @@ nps.se(survey_data$x12_q12_nps_score)
 nps.var(survey_data$x12_q12_nps_score)
 ```
 
-Now that we hacve Net Promoter Score from the NPS survey, we should ask: 
+Now that we have Net Promoter Score from the NPS survey, we should ask: 
 
  - Is my survey sample large enough? 
  - Is this fluctuation in NPS scores meaningful?
