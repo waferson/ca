@@ -13,7 +13,8 @@ output:
 # Exercises
 
  - Given the dataset "s5-homework.xlsx" in the data folder, apply the RFM analysis.
- - How many customer do we have per RFM group?
+ - How many customers do we have per RFM group?
+ - Which RFM groups do we find?
  - What can you explain about this company?
  
  > Attention: when using the previous code, remember to place the RFM code in the right folder.

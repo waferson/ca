@@ -1,0 +1,17 @@
+---
+title: "CA - S8: homework"
+author: Josep Curto
+date: 2018
+output: 
+  html_notebook: 
+    fig_caption: yes
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+---
+
+# Exercises
+
+We have received two data sets from wine sensory data for white and red wines.
+
+ - Can you apply clustering segmentation techniques to find similar wines?
