@@ -26,3 +26,4 @@ The topic of this session is **Customer Analytics**. This repository includes th
  - [Google's Seedbank](http://tools.google.com/seedbank/)
  - [Google's Distill](https://distill.pub)
  - [Google's Machine Learning Guides](https://developers.google.com/machine-learning/guides/)
+ - [Google's Introduction to ML (Crash Course)](https://developers.google.com/machine-learning/crash-course/ml-intro)
