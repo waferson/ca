@@ -12,7 +12,7 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
 
 ## References
 
-### How to load data (with packages)
+### How to load data (with packages) 
 
   - csv, tsv, fwf files: [readr](https://readr.tidyverse.org)
   - xls, xlsx files: [readxl](https://readxl.tidyverse.org)
