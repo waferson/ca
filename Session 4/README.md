@@ -12,12 +12,12 @@ The topic of this session is **Customer Lifetime Value**. This repository includ
  
 ## References
 
-### R cheatsheets
+### R packages used in this session
 
- - [readr cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
- - [dplyr cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)
+ - [readr](https://readr.tidyverse.org)
+ - [dplyr](https://dplyr.tidyverse.org)
  
-### About CLV
+### CLV
  
  - [How to share data with a statistician](https://github.com/jtleek/datasharing)
  - [Another R example for CLV](https://github.com/rtheman/CLV)
@@ -30,3 +30,10 @@ The topic of this session is **Customer Lifetime Value**. This repository includ
  - [Machine Learning Notebooks](https://github.com/ageron/handson-ml)
  - [Awesome Deep Learning](https://github.com/ChristosChristofidis/awesome-deep-learning)
  - [Caret ML examples](https://github.com/tobigithub/caret-machine-learning)
+ - [Google's Introduction to ML](https://developers.google.com/machine-learning/crash-course/ml-intro)
+
+### Books
+
+ - [The Elements of Statistical Learning](https://web.stanford.edu/~hastie/Papers/ESLII.pdf)
+ - [Foundations of Data Science](https://www.cs.cornell.edu/jeh/book.pdf)
+ - [R for Data Science](http://r4ds.had.co.nz)
