@@ -9,3 +9,4 @@ The topic of this session is **NPS**. This repository includes the content discu
   - solutions
   - homework
   - articles
+  - alternatives
