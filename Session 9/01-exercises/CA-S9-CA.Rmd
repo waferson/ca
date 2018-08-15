@@ -18,7 +18,7 @@ output:
 rm(list=ls())
 
 # List of packages for session
-.packages = c("readxl", "dplyr", "reshape","ggplot2")
+.packages = c("readxl", "dplyr", "reshape","ggplot2","gghighlight")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
@@ -99,11 +99,18 @@ p + geom_line() + ggtitle('Students Completition per day and cohort')
 
 **Question: What we observe?**
 
-And now we add every day!
+Sometimes we need to highlight a particular cohort, for example "Finished":
 
 ```{r}
-p1 <- ggplot(df_finished.chart, aes(x=Cohort, y=Students, group=Day, colour=Day))
-p1 + geom_line() + ggtitle('Students Completition per day and cohort')
+p1 <- ggplot(df_finished.chart, aes(x=Day, y=Students, group=Cohort, colour=Cohort))
+p1 + geom_line() + ggtitle('Students Completition per day and cohort') + gghighlight(Cohort == 'Finished')
+```
+
+We can create the same analysis including all the days.
+
+```{r}
+p2 <- ggplot(df_finished.chart, aes(x=Cohort, y=Students, group=factor(Day), colour=factor(Day)))
+p2 + geom_line() + ggtitle('Students Completition per day and cohort')
 ```
 
 We can do the same for the completition ratio. First we prepare the data:
