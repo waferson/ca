@@ -1,0 +1,15 @@
+---
+title: "CA - S7: homework"
+author: Josep Curto
+date: 2018
+output: 
+  html_notebook: 
+    fig_caption: yes
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+---
+
+# Exercises
+
+Given the "WA_Fn-UseC_-Marketing-Campaign-Plan_-GroceryS.csv" file, try to use **Association Analysis** to understand marketing campaings. Is there any type of relationship between the types of stores/marketing approach and the type of customers?

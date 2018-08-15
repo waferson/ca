@@ -6,6 +6,5 @@ The topic of this session is **Association Analysis**. This repository includes 
 
   - technical note
   - exercises
-  - solutions
   - homework
   - articles

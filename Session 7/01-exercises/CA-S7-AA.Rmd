@@ -1,5 +1,5 @@
 ---
-title: "CA - S7: Example"
+title: "CA - S7: exercises"
 author: Josep Curto, IE Business School
 abstract: "This document introduces how to calculate Association Analysis with R"
 keywords: "r, association analysis"
