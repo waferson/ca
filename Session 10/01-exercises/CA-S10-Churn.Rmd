@@ -205,6 +205,8 @@ We can observe:
     - The phone is individual, therefore no relevant.
     - The state is must be treated as a category.
 
+Changes in train dataset must be applied to test dataset.
+
 ```{r}
 churnTrain$Phone <- NULL
 churnTest$Phone <- NULL
@@ -219,7 +221,7 @@ one <- ggplot(churn, aes(x=Account.Length, fill=Churned))+geom_density()+ facet_
 one 
 ```
 
-Does not appear to be any noticable difference (in general we need to repeat this operation for all the variables).
+Does not appear to be any noticeable difference (in general we need to repeat this operation for all the variables).
 
 ## Building the model
 
@@ -261,4 +263,3 @@ confusionMatrix(pred, churnTest$Churned)
 ```{r}
 plot(model)
 ```
-
