@@ -31,6 +31,7 @@ The topic of this session is **Customer Lifetime Value**. This repository includ
  - [Awesome Deep Learning](https://github.com/ChristosChristofidis/awesome-deep-learning)
  - [Caret ML examples](https://github.com/tobigithub/caret-machine-learning)
  - [Google's Introduction to ML](https://developers.google.com/machine-learning/crash-course/ml-intro)
+ - [Facebook's field guide to ML](https://research.fb.com/the-facebook-field-guide-to-machine-learning-video-series/)
 
 ### Books
 
