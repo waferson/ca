@@ -30,6 +30,15 @@ lapply(.packages, library, character.only=TRUE)
 
 ## Loading data
 
+First we need to identify the specific sheet.
+
+```{r}
+# Get the list of sheets in the file
+excel_sheets("data/s4.xlsx")
+```
+
+After reviewing both of them we just load the relevant one.
+
 ```{r}
 # Load data into a dataframe
 df <- read_excel("data/s4.xlsx", sheet = "Ex2")
@@ -41,6 +50,12 @@ df
 The starting point is always EDA (Exploratory Data Analysis).
 
 ## Statistics
+
+A good startin point is to understand the structure of our dataframe:
+
+```{r}
+str(df)
+```
 
 We will use the main statistics:
 
