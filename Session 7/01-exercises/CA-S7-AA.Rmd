@@ -98,7 +98,7 @@ plot(hclust(d), cex=.5)
 First we apply the algorithm with two low values for support and confidence (as we want to obtain as many rules as possible):
 
 ```{r applying apropri algorithm}
-basket_rules <- apriori(txn,parameter = list(sup = 0.005, conf=0.01, minlen=2, target = "rules"))
+basket_rules <- apriori(txn,parameter = list(sup = 0, conf=0, minlen=2, target = "rules"))
 ```
 
 **Question: what happens if you change minlen by 1?**
@@ -112,7 +112,7 @@ summary(basket_rules)
 We can review the result (and order by lift)
 
 ```{r inspect rule}
-inspect(head(basket_rules, n=27, by = "lift"))
+inspect(head(basket_rules, n=50, by = "lift"))
 ```
 
 We can find the significant rules:
