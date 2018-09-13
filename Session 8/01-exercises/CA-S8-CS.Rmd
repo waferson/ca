@@ -43,7 +43,7 @@ rm(list=ls())
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-lapply(.packages, suppressPackageStartupMessages(require), character.only=TRUE)
+lapply(.packages, suppressPackageStartupMessages(library), character.only=TRUE)
 ```
 
 ## Loading data
@@ -162,16 +162,16 @@ Five clusters are suggested.
 **[Option 3]** Nbclust. It provides 30 indices for determining the relevant number of clusters and proposes to users the best clustering scheme from the different results obtained by varying all combinations of number of clusters, distance measures, and clustering methods.
 
 ```{r}
-res <- NbClust(df, diss=NULL, distance = "euclidean", min.nc=2, max.nc=12, 
+res <- NbClust(df, diss=NULL, distance = "euclidean", min.nc=2, max.nc=20, 
              method = "kmeans", index = "all")
 
 fviz_nbclust(res) + theme_minimal()
 ```
 
-Now we can create 2, 3 or 4 clusters. Let's create three:
+Now we can create 2, 3 or 4 clusters. Let's create two (the recommended option) and repeat the process 20 times:
 
 ```{r}
-fit <- kmeans(df, 3)
+fit <- kmeans(df, centers = 2, nstart = 20)
 ```
 
 What the fit object contains?
@@ -191,23 +191,39 @@ clusters
 We can add back the segmentation
 
 ```{r}
-data <- data.frame(data, fit$cluster)
-head(data)
+data_cluster <- data.frame(data, Cluster = fit$cluster)
+head(data_cluster)
 ```
 
 Let's make a plot:
 
 ```{r}
-ggplot(data, aes(Fresh, Delicassen, color = as.factor(fit$cluster))) + geom_point()
+ggplot(data, aes(Fresh, Detergents_Paper, color = as.factor(fit$cluster))) + geom_point()
 ```
 
-# Question 1: What happens if we consider 4 clusters? 
-
-# Question 2: What happens if we make the same analysis without the columns channel and region?
-
-Consider the following data frame:
+Finally we need to assess the quality of our cluster. We will use the silhoutte analysis (a cluster validation approach that measures how well an observation is clustered and it estimates the average distance between clusters).
 
 ```{r}
-df <- data[-(1:2)]
-df
+sil <- silhouette(fit$cluster, dist(df))
+fviz_silhouette(sil)
+```
+
+We can observe that there are some observations placed in the wrong cluster (as the value is negative). We can indentify the observations with negative silhouette:
+
+```{r}
+neg_sil_index <- which(sil[, "sil_width"] < 0)
+sil[neg_sil_index, , drop = FALSE]
+```
+
+# Question 1
+
+What happens if we consider 4 clusters? 
+
+# Question 2
+
+What happens if we make the same analysis without the columns channel and region? Consider the following data frame:
+
+```{r}
+df2 <- data[-(1:2)]
+df2
 ```

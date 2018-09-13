@@ -3,7 +3,7 @@
 # Customer Analytics with R
 # S8 - Customer Segmentation
 # @JosepCurto | jcurto@faculty.ie.edu | 2018
-# Version: 1.9
+# Version: 2.0
 #############################################################################
 
 # Clear console
@@ -25,88 +25,79 @@ if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 # Load packages into session 
 lapply(.packages, require, character.only=TRUE)
 
-# Load Data
+## Seed
+set.seed(1234)
+
+# Load data
 data <- read.csv('data/s8.csv', header = T,sep=',')
 
-# Review structure
+# Data Structure
 str(data)
 
-# Main Statistics
+# Statistics summary
 summary(data)
 
-# Let's review what happens (correlation)
-ggcorr(data, label = TRUE, label_size = 3, label_round = 2, label_alpha = TRUE)
+# Correlation
+ggcorr(data, label = TRUE, label_size = 4, label_round = 2, size = 2)
 
-# Hopkins Statistic
+# Clustering Tendency: Hopkins Statistic
 hopkins(data,n = nrow(data)-1)
 
-# What is happening?
+# PCA
+pca <- prcomp(data, scale=TRUE)
+pca
 
-## PCA
+# PCA summary
+summary(pca)
 
-# Let's review the PCA
-autoplot(prcomp(data))
+# PCA plot
+screeplot(pca, type="lines",col=3)
 
-# Another graph (color using one variable)
-autoplot(prcomp(data), data = data, colour = 'Channel')
+# pc1 vs pc2}
+autoplot(pca, data = data)
 
-# One more graph (eigenvalues)
-autoplot(prcomp(data), data = data, colour = 'Channel', loadings = TRUE, loadings.colour = 'blue',
+# Tweaking the previous plot
+autoplot(pca, data = data, colour = 'Channel')
+
+# Adding eigen values/vectors
+autoplot(pca, data = data, colour = 'Channel', loadings = TRUE, loadings.colour = 'blue',
          loadings.label = TRUE, loadings.label.size = 3)
 
-## Customer Segmentation
-set.seed(123)
-
 # Data normalization
-testdata <- data 
-testdata <- scale(testdata)
+df <- scale(data) 
 
-# Looking for the number of clusters. Option 1
-wss <- (nrow(testdata)-1)*sum(apply(testdata,2,var))
-for (i in 2:15) wss[i] <- sum(kmeans(testdata, 
-                                     centers=i)$withinss)
-plot(1:15, wss, type="b", xlab="Number of Clusters",
-     ylab="Within groups sum of squares")
+# Elbow method
+fviz_nbclust(df, kmeans, method = "wss") +
+  geom_vline(xintercept = 3, linetype = 2)
 
-# Looking for the number of clusters. Option 2
-res<-NbClust(data, diss=NULL, distance = "euclidean", min.nc=2, max.nc=12, 
-             method = "kmeans", index = "all")
+# Average silhouette method
+fviz_nbclust(df, kmeans, method = "silhouette")
 
-# More information
-res$All.index
-res$Best.nc
-res$All.CriticalValues
-res$Best.partition
+# NbClust
+res <- NbClust(df, diss=NULL, distance = "euclidean", min.nc=2, max.nc=20, 
+               method = "kmeans", index = "all")
+fviz_nbclust(res) + theme_minimal()
 
-# K-Means Cluster Analysis
-fit <- kmeans(testdata, 3)
+# Kmeans
+fit <- kmeans(df, centers = 2, nstart = 20)
 
-# what contains this object
+# Centers and size
 fit$centers
 fit$size
 
-# Average for every group
+# Average points
 clusters <- aggregate(data,by=list(fit$cluster),FUN=mean)
-# Review
 clusters
 
-# Add segmentation
-data <- data.frame(data, fit$cluster)
-# Review
-head(data)
+# Adding clusters to the original data
+data_cluster <- data.frame(data, Cluster = fit$cluster)
+head(data_cluster)
 
-# a plot
-ggplot(data, aes(Fresh, Delicassen, color = as.factor(fit$cluster))) + geom_point()
+# Plot using clusters to color the data
+ggplot(data, aes(Fresh, Detergents_Paper, color = as.factor(fit$cluster))) + geom_point()
 
-# Another plot
-autoplot(kmeans(data, 3), data = data)
-
-# What is happening?
-
-# Another clustering technique
-autoplot(fanny(data, 3), frame = TRUE)
-
-# Another clustering technique
-autoplot(pam(data, 3), frame = TRUE)
-
-# What is happening?
+# Clustering validation
+sil <- silhouette(fit$cluster, dist(df))
+fviz_silhouette(sil)
+neg_sil_index <- which(sil[, "sil_width"] < 0)
+sil[neg_sil_index, , drop = FALSE]
