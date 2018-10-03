@@ -20,10 +20,13 @@ The topic of this session is **Customer Analytics**. This repository includes th
   
 ## References
 
- - [A visual introduction to machine learning](http://www.r2d3.us/visual-intro-to-machine-learning-part-1/)
- - [Model Tuning and the Bias-Variance Tradeoff](http://www.r2d3.us/visual-intro-to-machine-learning-part-2/)
- - [Explained Visually, a Setosa project](http://setosa.io/ev/)
- - [Google's Seedbank](http://tools.google.com/seedbank/)
- - [Google's Distill](https://distill.pub)
- - [Google's Machine Learning Guides](https://developers.google.com/machine-learning/guides/)
- - [Google's Introduction to ML (Crash Course)](https://developers.google.com/machine-learning/crash-course/ml-intro)
+ - About customer analytics:
+  - [6 Ways to Build a Customer-Centric Culture](https://hbr.org/2018/10/6-ways-to-build-a-customer-centric-culture)
+ - About machine learning:
+  - [A visual introduction to machine learning](http://www.r2d3.us/visual-intro-to-machine-learning-part-1/)
+  - [Model Tuning and the Bias-Variance Tradeoff](http://www.r2d3.us/visual-intro-to-machine-learning-part-2/)
+  - [Explained Visually, a Setosa project](http://setosa.io/ev/)
+  - [Google's Seedbank](http://tools.google.com/seedbank/)
+  - [Google's Distill](https://distill.pub)
+  - [Google's Machine Learning Guides](https://developers.google.com/machine-learning/guides/)
+  - [Google's Introduction to ML (Crash Course)](https://developers.google.com/machine-learning/crash-course/ml-intro)
