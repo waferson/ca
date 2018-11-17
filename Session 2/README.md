@@ -40,6 +40,7 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
 
 ### Recommended Books and guides
   
+  - [Getting Started in R](https://github.com/eddelbuettel/gsir-te/blob/master/Getting-Started-in-R.pdf )
   - [Kieran Healy, H. 2018. Data Visualization: A practical introduction. Princeton](http://socviz.co)
   - [Data + Design](https://infoactive.co/data-design/titlepage01.html)
   - [Visualizing Data](http://www.visualisingdata.com/resources/)
