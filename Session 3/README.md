@@ -22,6 +22,8 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
 ### Advance books and content
 
   - [Data Science at the Command Line](https://www.datascienceatthecommandline.com)
+  - [R for Data Science](https://r4ds.had.co.nz)
+  - [R for Data Science Solutions](https://jrnold.github.io/r4ds-exercise-solutions/)
   - [Modern R with the tidyverse](https://b-rodrigues.github.io/modern_R/)
   - Packt Publishing:
     - [Mastering Machine Learning with R, Second Edition](https://github.com/PacktPublishing/Mastering-Machine-Learning-with-R-Second-Edition)
