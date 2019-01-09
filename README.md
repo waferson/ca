@@ -30,14 +30,14 @@ We will use R and Rstudio. In some sessions we will use additional packages for 
 
 **Install R**
 
-  - Download R from: https://www.r-project.org (in our case version 3.5.1)
+  - Download R from: https://www.r-project.org (in our case version 3.5.2)
   - Choose any mirror for downloading (for example [cloud.r](https://cloud.r-project.org))
   - Install and follow the instructions
   - [Mac] Download clang and gfortran as well from [here](https://cloud.r-project.org/bin/macosx/tools/)
 
 **Install Rstudio**
 
-  - Download Rstudio Desktop from https://www.rstudio.com/products/rstudio/download/#download (in our case version 1.1.456)
+  - Download Rstudio Desktop from https://www.rstudio.com/products/rstudio/download/#download (in our case version 1.1.463)
 
 **Optional**
 
