@@ -107,3 +107,15 @@ Run Jupyter with:
 ``` 
 Jupyter notebook
 ``` 
+
+## Updating python
+
+``` 
+brew update
+brew upgrade python3
+``` 
+
+``` 
+find ~/.virtualenvs/ca/ -type l -delete
+virtualenv ~/.virtualenvs/ca
+``` 
