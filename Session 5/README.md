@@ -8,7 +8,3 @@ The topic of this session is **RFM**. This repository includes the content discu
   - exercises
   - solutions
   - homework
-  
-  ## References
-  
-    - [Text Mining with R](https://www.tidytextmining.com)
