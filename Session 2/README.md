@@ -38,6 +38,13 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
     - [ggplot2 extensions](http://www.ggplot2-exts.org)
     - [ggplot2 tutorial](http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html)
 
+### Rmarkdown
+
+  - [Rmarkdown](https://rmarkdown.rstudio.com)
+  - [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)  
+  - Templates:
+    - [rticles](https://github.com/rstudio/rticles)
+
 ### Recommended Books and guides
   
   - [Getting Started in R](https://github.com/eddelbuettel/gsir-te/blob/master/Getting-Started-in-R.pdf )

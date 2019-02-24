@@ -10,3 +10,7 @@ The topic of this session is **NPS**. This repository includes the content discu
   - homework
   - articles
   - alternatives
+
+## References
+  
+  - [Text Mining with R](https://www.tidytextmining.com)
