@@ -1,4 +1,4 @@
-# Python for Customer Analytics
+# Python for Customer Analytics
 
 We can use [Python](https://www.python.org) for Customer Analytics as well. While is not the goal of this course. In each of the session you can check and practice some examples.
 
