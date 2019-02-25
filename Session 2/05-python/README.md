@@ -1,4 +1,4 @@
-# Python for Customer Analytics
+#Â Python for Customer Analytics
 
 We can use [Python](https://www.python.org) for Customer Analytics as well. While is not the goal of this course. In each of the session you can check and practice some examples.
 
@@ -29,7 +29,7 @@ pip3 install virtualenv virtualenvwrapper
 mkdir ~/Python-Projects
 ``` 
 
-We configure the environment (en mi case Python-Projects, other path can be considered):
+We configure the environment (in my case Python-Projects, other paths can be considered):
 
 ``` 
 echo '# needed for virtualenvwrapper' >> ~/.profile
@@ -43,7 +43,7 @@ echo source /usr/local/bin/virtualenvwrapper.sh >> ~/.profile
 source ~/.profile
 ``` 
 
-We active our environment (in our ca - customer analytics-):
+We active our environment (in our case ca - customer analytics-):
 
 ``` 
 mkvirtualenv ca
@@ -57,7 +57,7 @@ workon ca
 
 ## Managing your packages
 
-First we need a requirements.txt file (that has a list of the packages in our project)
+First we need a requirements.txt file (that ia the list of the packages in our project)
 
 ``` 
 pip freeze > requirements.txt
@@ -69,7 +69,7 @@ Then, we can use pip-upgrader to review the new packages. First we install it an
 pip install pip-upgrader
 ``` 
 
-If you have a requirements.txt file (in your folder):
+It will work, if you have a requirements.txt file (in your folder):
 
 ``` 
 cd Python-Projects
@@ -77,6 +77,8 @@ pip-upgrade
 ``` 
 
 ## Installing base packages for data science
+
+First some libraries, and thehn the proper packages.
 
 ``` 
 brew install pkg-config libpng freetype xlrd
@@ -87,7 +89,7 @@ pip3 install numpy scipy matplotlib pandas sympy nose mlxtend
 
 There are many GUI for Python. In our case, we are using [Atom](https://atom.io) and the package [hydrogen](https://atom.io/packages/hydrogen).
 
-Atom (with hydrogen) is able to simulate Jupiter notebooks in your code. It need ipykernel.
+Atom (with hydrogen) is able to simulate Jupiter notebooks in your code. It needs ipykernel.
 
 ``` 
 python -m pip install ipykernel 
@@ -96,7 +98,7 @@ python -m ipykernel install
 
 ## Installing Jupyter
 
-This is optional. Jupyter is an interactive Python environment. Install jupyter with:
+This is optional (and/or complementary to Atom). Jupyter is an interactive Python environment. Install jupyter with:
 
 ``` 
 pip3 install jupyter:
@@ -110,10 +112,14 @@ Jupyter notebook
 
 ## Updating python
 
+To upgrade python. First upgrade homebrew formulas, then python:
+
 ``` 
 brew update
 brew upgrade python3
 ``` 
+
+Finally recreate the symlinks to your packages in your environment:
 
 ``` 
 find ~/.virtualenvs/ca/ -type l -delete
