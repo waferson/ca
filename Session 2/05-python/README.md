@@ -2,6 +2,14 @@
 
 We can use [Python](https://www.python.org) for Customer Analytics as well. While is not the goal of this course. In each of the session you can check and practice some examples.
 
+## Installing Python in Windows (using Chocolatey)
+
+First we must install [Chocolatey](https://chocolatey.org). After it has been installed, we can use the terminal to install python in Windows:
+
+``` 
+choco install -y python3
+``` 
+
 ## Installing Python in Mac (using homebrew)
 
 First we must install [HomeBrew](https://brew.sh) using the terminal:
@@ -16,13 +24,27 @@ Now we can install the latest version of python:
 brew install python3
 ``` 
 
+## Managing software packages for Python
+
 We will need to install [pip](https://pypi.org/project/pip/) (recommended for the installation of other packages):
 
 ``` 
 pip3 install --upgrade pip setuptools wheel
 ``` 
 
-And create an environment and the folder that we will use for our projects:
+## Creating an environment
+
+We can execute to create a new folder and the new environment:
+
+``` 
+mkdir Python-Projects
+cd Python-Projects
+python -m venv ca
+``` 
+
+### Alternative
+
+We can use a package that will help us to create an environment and the folder that we will use for our projects:
 
 ``` 
 pip3 install virtualenv virtualenvwrapper
@@ -43,7 +65,9 @@ echo source /usr/local/bin/virtualenvwrapper.sh >> ~/.profile
 source ~/.profile
 ``` 
 
-We active our environment (in our case ca - customer analytics-):
+## Activating an environment
+
+We active our environment (in our case ca - customer analytics-) with:
 
 ``` 
 mkvirtualenv ca
@@ -55,21 +79,21 @@ Each time we want to work with the environment just execute:
 workon ca
 ``` 
 
-## Managing your packages
+## Updating your packages
 
-First we need a requirements.txt file (that ia the list of the packages in our project)
+First we need a requirements.txt file (that is the list of the packages in our project):
 
 ``` 
 pip freeze > requirements.txt
 ``` 
 
-Then, we can use pip-upgrader to review the new packages. First we install it and then:
+Then, we can use pip-upgrader to review the new packages. First we install it:
 
 ``` 
 pip install pip-upgrader
 ``` 
 
-It will work, if you have a requirements.txt file (in your folder):
+then we excute it (It will work, if you have a requirements.txt file in your folder):
 
 ``` 
 cd Python-Projects
@@ -83,17 +107,6 @@ First some libraries, and thehn the proper packages.
 ``` 
 brew install pkg-config libpng freetype xlrd
 pip3 install numpy scipy matplotlib pandas sympy nose mlxtend
-``` 
-
-## Atom
-
-There are many GUI for Python. In our case, we are using [Atom](https://atom.io) and the package [hydrogen](https://atom.io/packages/hydrogen).
-
-Atom (with hydrogen) is able to simulate Jupiter notebooks in your code. It needs ipykernel.
-
-``` 
-python -m pip install ipykernel 
-python -m ipykernel install 
 ``` 
 
 ## Installing Jupyter
@@ -124,4 +137,15 @@ Finally recreate the symlinks to your packages in your environment:
 ``` 
 find ~/.virtualenvs/ca/ -type l -delete
 virtualenv ~/.virtualenvs/ca
+``` 
+
+## Atom
+
+There are many GUI for Python. In our case, we are using [Atom](https://atom.io) and the package [hydrogen](https://atom.io/packages/hydrogen).
+
+Atom (with hydrogen) is able to simulate Jupiter notebooks in your code. It needs ipykernel.
+
+``` 
+python -m pip install ipykernel 
+python -m ipykernel install 
 ``` 
