@@ -31,7 +31,7 @@ We can create a new folder, the new environment and we activate it:
 ``` 
 mkdir ca
 cd ca
-python -m venv ca
+python3 -m venv ca
 source ca/bin/activate
 ``` 
 
