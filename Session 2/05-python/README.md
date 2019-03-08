@@ -30,8 +30,8 @@ We can create a new folder, the new environment and we activate it:
 
 ``` 
 mkdir ca
-cd ca
 python3 -m venv ca
+cd ca
 source ca/bin/activate
 ``` 
 
