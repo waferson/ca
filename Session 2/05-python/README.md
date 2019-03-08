@@ -24,48 +24,47 @@ Now we can install the latest version of python:
 brew install python3
 ``` 
 
+## Creating an environment
+
+We can create a new folder, the new environment and we activate it:
+
+``` 
+mkdir ca
+cd ca
+python -m venv ca
+source ca/bin/activate
+``` 
+
 ## Managing software packages for Python
 
-We will need to install [pip](https://pypi.org/project/pip/) (recommended for the installation of other packages):
+We will need to install [pip](https://pypi.org/project/pip/), [setuptools](https://pypi.org/project/setuptools/) and [wheel](https://pypi.org/project/wheel/) (recommended for the installation of other packages):
 
 ``` 
 pip3 install --upgrade pip setuptools wheel
 ``` 
 
-## Creating an environment
-
-We can execute to create a new folder and the new environment:
-
-``` 
-mkdir Python-Projects
-cd Python-Projects
-python -m venv ca
-``` 
-
-### Alternative
+## Creating an environment (alternative)
 
 We can use a package that will help us to create an environment and the folder that we will use for our projects:
 
 ``` 
 pip3 install virtualenv virtualenvwrapper
-mkdir ~/Python-Projects
+mkdir ~/ca
 ``` 
 
-We configure the environment (in my case Python-Projects, other paths can be considered):
+We configure the environment (in my case ca, other paths can be considered):
 
 ``` 
 echo '# needed for virtualenvwrapper' >> ~/.profile
 echo export 'WORKON_HOME=$HOME/.virtualenvs' >> ~/.profile
 # replace Projects with the name you gave your folder
-echo export 'PROJECT_HOME=$HOME/Python-Projects' >> ~/.profile
+echo export 'PROJECT_HOME=$HOME/ca' >> ~/.profile
 echo export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3 >> ~/.profile
 echo export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv >> ~/.profile
 echo export PIP_REQUIRE_VIRTUALENV=true >> ~/.profile
 echo source /usr/local/bin/virtualenvwrapper.sh >> ~/.profile
 source ~/.profile
 ``` 
-
-## Activating an environment
 
 We active our environment (in our case ca - customer analytics-) with:
 
@@ -96,7 +95,7 @@ pip install pip-upgrader
 then we excute it (It will work, if you have a requirements.txt file in your folder):
 
 ``` 
-cd Python-Projects
+cd ca
 pip-upgrade
 ``` 
 
@@ -114,7 +113,7 @@ pip3 install numpy scipy matplotlib pandas sympy nose mlxtend
 This is optional (and/or complementary to Atom). Jupyter is an interactive Python environment. Install jupyter with:
 
 ``` 
-pip3 install jupyter:
+pip3 install jupyter
 ``` 
 
 Run Jupyter with:
