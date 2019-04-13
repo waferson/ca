@@ -37,7 +37,7 @@ We will use R and Rstudio. In some sessions, we will use additional packages for
 
 **Install Rstudio**
 
-  - Download Rstudio Desktop from https://www.rstudio.com/products/rstudio/download/#download (in our case version 1.1.463)
+  - Download Rstudio Desktop from https://www.rstudio.com/products/rstudio/download/#download (in our case version 1.2.1335)
 
 **Optional**
 
