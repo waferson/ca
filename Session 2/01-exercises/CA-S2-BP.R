@@ -2,8 +2,8 @@
 # 
 # IE - IMBA
 # Customer Analytics - S2 - Best Practices
-# Josep Curto | jcurto@faculty.ie.edu | 2018
-# Version: 1.0
+# Josep Curto | jcurto@faculty.ie.edu | 2019
+# Version: 1.1
 # 
 #############################################################################
 
@@ -24,4 +24,4 @@ cat("\f")
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-lapply(.packages, library, character.only=TRUE)
+suppressPackageStartupMessages(library(ggplot2))

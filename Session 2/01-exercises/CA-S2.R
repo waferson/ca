@@ -2,8 +2,8 @@
 # 
 # IE - IMBA
 # Customer Analytics - S2
-# Josep Curto | jcurto@faculty.ie.edu | 2018
-# Version: 1.1
+# Josep Curto | jcurto@faculty.ie.edu | 2019
+# Version: 1.2
 # 
 #############################################################################
 
@@ -32,6 +32,7 @@ remove.packages("ggplot2")
 # Load with library(name) - we install again the library - 
 install.packages("ggplot2")
 library("ggplot2")
+#Optional: suppressPackageStartupMessages(library(ggplot2))
 
 # You can also use require() but it is a bad programming practice
 
