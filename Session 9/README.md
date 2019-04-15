@@ -9,6 +9,7 @@ The topic of this session is **Cohort Analysis**. This repository includes the c
   - solutions
   - homework
   - alternatives
+  - optional python examples
 
 ## Main Concepts
 

@@ -6,6 +6,7 @@ The topic of this session is **Churn Analysis**. This repository includes the co
 
   - technical note
   - exercises
+  - optional python examples
 
 ## Main Concepts
 

@@ -9,3 +9,4 @@ The topic of this session is **Customer Segmentation**. This repository includes
   - solutions
   - homework
   - articles
+  - optional python examples

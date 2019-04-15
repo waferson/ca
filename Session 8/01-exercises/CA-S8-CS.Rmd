@@ -14,7 +14,7 @@ output:
 
 # Wholesale customers Data Set
 
-We will consider the following data set: [Wholesale customers Data Set](Abreu, N. (2011). Analise do perfil do cliente Recheio e desenvolvimento de um sistema promocional. Mestrado em Marketing, ISCTE-IUL, Lisbon)
+We will consider the following data set: [Wholesale customers Data Set](Abreu, N. (2011). *Analise do perfil do cliente Recheio e desenvolvimento de um sistema promocional. Mestrado em Marketing*, ISCTE-IUL, Lisbon)
  
 It contains the following attributes:
 
@@ -24,8 +24,8 @@ It contains the following attributes:
  - FROZEN: annual spending (m.u.) on frozen products (Continuous) 
  - DETERGENTS_PAPER: annual spending (m.u.) on detergents and paper products (Continuous) 
  - DELICATESSEN: annual spending (m.u.) on and delicatessen products (Continuous); 
- - CHANNEL: customers Channel - Horeca (Hotel/Restaurant/Café) or Retail channel (Nominal) 
- - REGION: customers Region of Lisbon, Oporto or Other (Nominal) 
+ - CHANNEL: customers Channel - Horeca (Hotel/Restaurant/Café) or Retail channel (Category) 
+ - REGION: customers Region of Lisbon, Oporto or Other (Category) 
 
 # Calculate Customer Segmentation with R
 
@@ -43,7 +43,13 @@ rm(list=ls())
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-lapply(.packages, suppressPackageStartupMessages(library), character.only=TRUE)
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(NbClust))
+suppressPackageStartupMessages(library(ggfortify))
+suppressPackageStartupMessages(library(GGally))
+suppressPackageStartupMessages(library(cluster))
+suppressPackageStartupMessages(library(factoextra))
+suppressPackageStartupMessages(library(clustertend))
 ```
 
 ## Loading data
