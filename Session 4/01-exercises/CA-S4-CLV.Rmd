@@ -25,19 +25,11 @@ Let's assume that we have the aggregated customer data during 8 periods.
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-lapply(.packages, library, character.only=TRUE)
+suppressPackageStartupMessages(library(readxl))
+suppressPackageStartupMessages(library(ggplot2))
 ```
 
 ## Loading data
-
-First we need to identify the specific sheet.
-
-```{r}
-# Get the list of sheets in the file
-excel_sheets("data/s4.xlsx")
-```
-
-After reviewing both of them we just load the relevant one.
 
 ```{r}
 # Load data into a dataframe
@@ -50,12 +42,6 @@ df
 The starting point is always EDA (Exploratory Data Analysis).
 
 ## Statistics
-
-A good startin point is to understand the structure of our dataframe:
-
-```{r}
-str(df)
-```
 
 We will use the main statistics:
 

@@ -1,5 +1,5 @@
 ---
-title: "CA - S5: exercises"
+title: "CA - S5: Example"
 author: Josep Curto, IE Business School
 abstract: "This document introduces how to calculate RFM with R and how to create and understand customer segments based on RFM."
 keywords: "r, rfm"
@@ -26,8 +26,10 @@ We will use readr, dplyr and ggplot2 packages.
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
-# Load packages into session 
-lapply(.packages, suppressPackageStartupMessages(library), character.only=TRUE)
+# Load packages into session
+suppressPackageStartupMessages(library(readr))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(ggplot2))
 ```
 
 ## Load functions
@@ -88,10 +90,8 @@ countRFM
 ```{r plot1}
 ggplot(dfRFM, aes(factor(RFM_Score))) +
   geom_bar() +
-  ggtitle('Customer Distribution per RFM') +
+  ggtitle('Customer Distribution', subtitle = "Using RFM segments") +
   labs(x="RFM",y="# Customers") + 
-  theme(plot.title = element_text(color="#666666", face="bold", size=16, hjust=0)) +
-  theme(axis.title = element_text(color="#666666", face="bold")) +
   theme(axis.text.x  = element_text(angle=90,vjust=0.5))
 ```
 
@@ -148,4 +148,5 @@ write.csv(dfRFM,"data/RFM.csv")
 # Exercises
 
 Q1. Can you create a segmentation for frequency and monetary?
+
 Q2. Can you create a segmentation considering all RFM values? Hint: use the segments presented in the article.

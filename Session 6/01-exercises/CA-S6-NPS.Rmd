@@ -30,7 +30,14 @@ rm(list=ls())
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-lapply(.packages, library, character.only=TRUE)
+suppressPackageStartupMessages(library(NPS))
+suppressPackageStartupMessages(library(NPC))
+suppressPackageStartupMessages(library(readr))
+suppressPackageStartupMessages(library(janitor))
+suppressPackageStartupMessages(library(tidytext))
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(ggplot2))
 ```
 
 ## Loading data
@@ -50,6 +57,10 @@ survey_data
 ```
 
 We need to understand the main statistics:
+
+```{r summary_survey_data_airline}
+str(survey_data)
+```
 
 ```{r summary_survey_data}
 summary(survey_data)
