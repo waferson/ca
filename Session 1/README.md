@@ -20,6 +20,8 @@ The topic of this session is **Customer Analytics**. This repository includes th
   
 ## References
 
+ - About Rmarkdown:
+    - [Rmarkdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
  - About customer analytics:
     - [6 Ways to Build a Customer-Centric Culture](https://hbr.org/2018/10/6-ways-to-build-a-customer-centric-culture)
  - About machine learning:
