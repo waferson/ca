@@ -25,6 +25,7 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
   - [R for Data Science](https://r4ds.had.co.nz)
   - [R for Data Science Solutions](https://jrnold.github.io/r4ds-exercise-solutions/)
   - [Modern R with the tidyverse](https://b-rodrigues.github.io/modern_R/)
+  - [R Graphics Cookbook, 2nd edition](https://r-graphics.org)
   - Packt Publishing:
     - [Mastering Machine Learning with R, Second Edition](https://github.com/PacktPublishing/Mastering-Machine-Learning-with-R-Second-Edition)
     - [Practical Machine Learning Cookbook](https://github.com/PacktPublishing/Practical-Machine-Learning-Cookbook)
