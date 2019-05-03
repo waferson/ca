@@ -21,7 +21,7 @@ output:
 rm(list=ls())
 
 # List of packages for session
-.packages = c("arules", "arulesViz")
+.packages = c("fpc","arules", "arulesViz")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()

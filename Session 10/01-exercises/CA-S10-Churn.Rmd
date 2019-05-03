@@ -162,7 +162,7 @@ ggsurvplot(km.by.gender, data = df,risk.table = TRUE, size = 1,
 rm(list=ls())
 
 # List of packages for session
-.packages = c("plyr","dplyr","stringr","ggplot2","reshape2","caret","randomForest","e1071")
+.packages = c("plyr","dplyr","stringr","ggplot2","reshape2","caret","randomForest","e1071","ranger")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
