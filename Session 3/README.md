@@ -41,4 +41,5 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
     - [Data Analysis with R Second Edition](https://github.com/PacktPublishing/Data-Analysis-with-R-Second-Edition)
     - [R Data Mining Blueprints](https://github.com/PacktPublishing/R-Data-Mining-Blueprints)
     - [R Deep Learning Essentials, Second Edition](https://github.com/PacktPublishing/R-Deep-Learning-Essentials-Second-Edition)
+  - [Graphics principles cheatsheet](https://graphicsprinciples.github.io)
     
