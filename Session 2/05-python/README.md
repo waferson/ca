@@ -1,6 +1,6 @@
 # Python for Customer Analytics
 
-We can use [Python](https://www.python.org) for Customer Analytics as well. While is not the goal of this course. In each of the session you can check and practice some examples.
+We can use [Python](https://www.python.org) for Customer Analytics as well. While is not the goal of this course. In each of the session you can check and practice some examples. If you are not familiar to Python, I recommend the book [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/).
 
 ## Installing Python in Windows (using Chocolatey)
 
