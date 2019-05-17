@@ -122,7 +122,7 @@ Run Jupyter with:
 Jupyter notebook
 ``` 
 
-## Updating python
+## Upgrading python
 
 To upgrade python. First upgrade homebrew formulas, then python:
 
@@ -136,6 +136,14 @@ Finally recreate the symlinks to your packages in your environment:
 ``` 
 find ~/.virtualenvs/ca/ -type l -delete
 virtualenv ~/.virtualenvs/ca
+``` 
+
+## Upgrading everything in brew
+
+Open the terminal and execute:
+
+``` 
+brew update && brew upgrade `brew outdated`
 ``` 
 
 ## Atom
