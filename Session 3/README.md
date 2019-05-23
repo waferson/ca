@@ -26,6 +26,7 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
   - [R for Data Science Solutions](https://jrnold.github.io/r4ds-exercise-solutions/)
   - [Modern R with the tidyverse](https://b-rodrigues.github.io/modern_R/)
   - [R Graphics Cookbook, 2nd edition](https://r-graphics.org)
+  - [Hands-On Programming with R](https://rstudio-education.github.io/hopr/index.html)
   - Packt Publishing:
     - [Mastering Machine Learning with R, Second Edition](https://github.com/PacktPublishing/Mastering-Machine-Learning-with-R-Second-Edition)
     - [Practical Machine Learning Cookbook](https://github.com/PacktPublishing/Practical-Machine-Learning-Cookbook)
@@ -42,4 +43,3 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
     - [R Data Mining Blueprints](https://github.com/PacktPublishing/R-Data-Mining-Blueprints)
     - [R Deep Learning Essentials, Second Edition](https://github.com/PacktPublishing/R-Deep-Learning-Essentials-Second-Edition)
   - [Graphics principles cheatsheet](https://graphicsprinciples.github.io)
-    
