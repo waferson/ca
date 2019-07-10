@@ -55,3 +55,4 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
   - [from Data to Viz](https://www.data-to-viz.com)
   - [R Markdown: the definitive guide](https://bookdown.org/yihui/rmarkdown/)
   - [BBC Visual and Data Journalism cookbook for R graphics](https://bbc.github.io/rcookbook/)
+  - [R notes for professionals](https://goalkicker.com/RBook/)
