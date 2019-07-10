@@ -156,3 +156,7 @@ Atom (with hydrogen) is able to simulate Jupiter notebooks in your code. It need
 python -m pip install ipykernel 
 python -m ipykernel install 
 ``` 
+
+## Books
+
+- [R notes for professionals](https://goalkicker.com/PythonBook/)
