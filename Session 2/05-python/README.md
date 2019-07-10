@@ -159,4 +159,4 @@ python -m ipykernel install
 
 ## Books
 
-- [R notes for professionals](https://goalkicker.com/PythonBook/)
+- [Python notes for professionals](https://goalkicker.com/PythonBook/)
