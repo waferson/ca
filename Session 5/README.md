@@ -8,3 +8,9 @@ The topic of this session is **RFM**. This repository includes the content discu
   - exercises
   - solutions
   - homework
+  
+ ## References
+ 
+  - [rfm: Recency, Frequency and Monetary Value Analysis](https://cran.r-project.org/web/packages/rfm/index.html)
+  - [https://cran.r-project.org/web/packages/didrooRFM/index.html](https://cran.r-project.org/web/packages/didrooRFM/index.html)
+ 
