@@ -12,5 +12,5 @@ The topic of this session is **RFM**. This repository includes the content discu
  ## References
  
   - [rfm: Recency, Frequency and Monetary Value Analysis](https://cran.r-project.org/web/packages/rfm/index.html)
-  - [https://cran.r-project.org/web/packages/didrooRFM/index.html](https://cran.r-project.org/web/packages/didrooRFM/index.html)
+  - [didrooRFM: Compute Recency Frequency Monetary Scores for your Customer Data](https://cran.r-project.org/web/packages/didrooRFM/index.html)
  
