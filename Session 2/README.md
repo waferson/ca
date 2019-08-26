@@ -40,7 +40,9 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
 ### Recommended Books and guides
   
   - [Getting Started in R](https://github.com/eddelbuettel/gsir-te/blob/master/Getting-Started-in-R.pdf)
+  - [Statistical Thinking for the 21st Century](http://statsthinking21.org/index.html)
   - [R notes for professionals](https://goalkicker.com/RBook/)
+  - [Cookbook for R](http://www.cookbook-r.com)
   - [R Markdown: the definitive guide](https://bookdown.org/yihui/rmarkdown/)
   - [Kieran Healy, H. 2018. Data Visualization: A practical introduction. Princeton](http://socviz.co)
   - [Data + Design](https://infoactive.co/data-design/titlepage01.html)
