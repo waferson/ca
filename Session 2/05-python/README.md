@@ -57,7 +57,7 @@ We configure the environment (in my case ca, other paths can be considered):
 echo '# needed for virtualenvwrapper' >> ~/.profile
 echo export 'WORKON_HOME=$HOME/.virtualenvs' >> ~/.profile
 # replace Projects with the name you gave your folder
-echo export 'PROJECT_HOME=$HOME/ca' >> ~/.profile
+echo export 'PROJECT_HOME=$HOME/python-projects' >> ~/.profile
 echo export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3 >> ~/.profile
 echo export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv >> ~/.profile
 echo export PIP_REQUIRE_VIRTUALENV=true >> ~/.profile
