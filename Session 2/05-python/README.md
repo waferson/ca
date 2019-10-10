@@ -83,13 +83,13 @@ workon ca
 First we need a requirements.txt file (that is the list of the packages in our project):
 
 ``` 
-pip freeze > requirements.txt
+pip3 freeze > requirements.txt
 ``` 
 
 Then, we can use pip-upgrader to review the new packages. First we install it:
 
 ``` 
-pip install pip-upgrader
+pip3 install pip-upgrader
 ``` 
 
 then we excute it (It will work, if you have a requirements.txt file in your folder):
