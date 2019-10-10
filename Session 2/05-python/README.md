@@ -29,10 +29,9 @@ brew install python3
 We can create a new folder, the new environment and we activate it:
 
 ``` 
-mkdir ca
-python3 -m venv ca
-cd ca
-source ca/bin/activate
+mkdir python-projects
+python3 -m venv python-projects
+source python-projects/bin/activate
 ``` 
 
 ## Managing software packages for Python
@@ -49,7 +48,7 @@ We can use a package that will help us to create an environment and the folder t
 
 ``` 
 pip3 install virtualenv virtualenvwrapper
-mkdir ~/ca
+mkdir ~/python-projects
 ``` 
 
 We configure the environment (in my case ca, other paths can be considered):
@@ -69,13 +68,13 @@ source ~/.profile
 We active our environment (in our case ca - customer analytics-) with:
 
 ``` 
-mkvirtualenv ca
+mkvirtualenv python-projects
 ``` 
 
 Each time we want to work with the environment just execute:
 
 ``` 
-workon ca
+workon python-projects
 ``` 
 
 ## Updating your packages
@@ -95,7 +94,7 @@ pip3 install pip-upgrader
 then we excute it (It will work, if you have a requirements.txt file in your folder):
 
 ``` 
-cd ca
+cd python-projects
 pip-upgrade
 ``` 
 
