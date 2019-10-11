@@ -1,5 +1,5 @@
 ---
-title: "CA - S7: Example"
+title: "CA - S7: Association Analysis"
 author: Josep Curto, IE Business School
 abstract: "This document introduces how to calculate Association Analysis with R"
 keywords: "r, association analysis"
@@ -21,7 +21,7 @@ output:
 rm(list=ls())
 
 # List of packages for session
-.packages = c("fpc","arules", "arulesViz")
+.packages = c("arules","arulesViz")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
@@ -38,7 +38,7 @@ First we load the data:
 
 ```{r load data}
 # Load data
-edata <- read.csv("data/s7.csv",stringsAsFactors=FALSE, sep=',')
+edata <- read.csv("data/transactions_detail.csv",stringsAsFactors=FALSE, sep=',')
 ```
 
 The summary give is information about the attributes:
@@ -213,7 +213,7 @@ inspect(basket_rules.refined[maximal])
 Subset based on an item
 
 ```{r}
-inspect(subset(basket_rules.refined, subset = items %in% "A"))
+inspect(subset(basket_rules.refined, subset = items %in% "coffee"))
 ```
 
 ## More visual Analytics

@@ -1,0 +1,146 @@
+---
+title: "CA - S7: Non Personalized Recommendation Engine"
+author: Josep Curto, IE Business School
+abstract: "This document introduces how tobBuilding a non personalized recommendation Engine with R"
+keywords: "r, association analysis"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  html_notebook: 
+    fig_caption: yes
+    toc: yes
+    toc_float: yes
+    self_contained: yes
+---
+
+# Calculate Non Personalized recommendations with R
+
+## Load packages
+
+```{r packages, warning=FALSE, echo=FALSE, message=FALSE}
+# Cleaning the environment
+rm(list=ls())
+
+# List of packages for session
+.packages = c("data.table")
+
+# Install CRAN packages (if not already installed)
+.inst <- .packages %in% installed.packages()
+if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
+
+# Load packages into session 
+suppressPackageStartupMessages(library(data.table))
+```
+
+## Loading data
+
+First we load the data:
+
+```{r load data}
+# Load data
+df <- read.csv("data/critics.csv",sep=',', header=T)
+```
+
+The summary give is information about the attributes:
+
+```{r summary}
+summary(df)
+```
+
+Prepare the dataset:
+
+```{r}
+rownames(df) <- df$User 
+df <- df[,-1]
+```
+
+## Top 5 Movies, by rating mean
+
+Calculating mean rating for each movie, ordered with the highest rating listed first, and plot the top 5.
+
+```{r fig.width=7, fig.height=6}
+top_rated_movies <- data.table()
+for (i in 1:ncol(df)){
+  # row binds the result to the existing data table 
+  top_rated_movies <- rbind(top_rated_movies, data.table(
+                 movie_name = colnames(df)[i],
+                 mean_movie = mean(df[,i], na.rm = TRUE)));
+}
+top_rated_movies[order(-mean_movie)][1:5]
+```
+
+## Top 5 Movies, by rating distribution
+
+Calculating the percentage of ratings for each movie that are 4 stars or higher. Order with the highest percentage first, and plot the top 5 movies with more high ratings distribution.
+
+```{r fig.width=7, fig.height=6}
+top_rated_movies2 <- data.table()
+for (i in 1:ncol(df)){
+  movie <- df[,i]
+  # total number of ratings
+  total = sum(movie >= 0, na.rm = T)
+  # number of ratings higher or equal 4
+  count = sum(movie >= 4, na.rm = T)
+  percentage = count / total
+  top_rated_movies2 <- rbind(top_rated_movies2, data.table(
+                 movie_name = colnames(df)[i],
+                 percentage = percentage));
+  }
+top_rated_movies2[order(-percentage)][1:5]
+```
+
+## Top 5 Movies, by quantity of ratings
+
+Counting the number of ratings for each movie, order the one with most number of ratings first, submit the top 5.
+
+```{r fig.width=7, fig.height=6}
+top_rated_movies3 <- data.table()
+for (i in 1:ncol(df)){
+  movie <- df[,i]
+  total_ratings <- sum(movie >= 0, na.rm = T)
+  top_rated_movies3 <- rbind(top_rated_movies3, data.table(
+                 movie_name = colnames(df)[i],
+                 total_ratings = total_ratings));
+  }
+top_rated_movies3[order(-total_ratings)][1:5]
+```
+
+## People who watched Star Wars IV also watched ...
+
+Calculate movies that most often occur with other movie. For each movie, calculate the percentage of the other movie raters who also rated that movie. Order with the highest percentage first, and submit the top 5. Select "Star.Wars.IV...A.New.Hope" movie by default.
+
+```{r fig.width=7, fig.height=6}
+StarWars_count <- sum((df[,1] >= 0), na.rm = T) 
+# Filter first the rows with a rating for the default movie and delete the column of the default movie to generate the (intersection x + y )
+df_StarWars_movie <- df[!is.na(df$`Star Wars IV - A New Hope`),][,-1]
+top_occurences <- data.table()
+for (i in 1:ncol(df_StarWars_movie)){
+  movie <- df_StarWars_movie[,i]
+  # ratings of the movie i 
+  other_movie = sum(movie >= 0, na.rm = T) # automatically retrieves the intersection as the df_StarWars_movie only contains ratings user watched both movie i and Star Wars
+  occ_percentage = other_movie / StarWars_count # devide intersection x + y by y 
+  top_occurences <- rbind(top_occurences, data.table(
+                               movie_name = colnames(df_StarWars_movie)[i],
+                               occ_percentage = occ_percentage));
+}
+top_occurences[order(-occ_percentage)][1:5]
+```
+
+## People who liked Babe also liked...
+
+Calculate the movies better rated of people who liked a movie. Select the people who liked the movie "Babe" (4 or 5 stars) and provide the top 5 movies they liked most.
+
+```{r fig.width=7, fig.height=6}
+# number of total ratings of Babe
+Babe_count  <-  sum((df[,20] >= 0), na.rm = T) 
+# Filter first the rows with a rating for the default movie, filte than the ratings higher equal to four and delete the column of the default movie
+df_Babe_movie <- df[!is.na(df$Babe) & (df$Babe>=4) ,][,-20]
+top_liked <- data.table()
+for (i in 1:ncol(df_Babe_movie)){
+  movie <- df_Babe_movie[,i]
+  like_mean <-  mean(movie, na.rm = TRUE)
+  top_liked <- rbind(top_liked, data.table(
+                               movie_name = colnames(df_Babe_movie)[i],
+                               like_mean = like_mean));
+}
+top_liked[order(-like_mean)][1:5]
+```
