@@ -188,7 +188,7 @@ churn <- read.csv("data/s10-2.txt", header=T)
 churn$Churned<-churn$Churn.
 churn$Churn. <- NULL
 set.seed(12)
-trainIndex <- caret::createDataPartition(churn$Churned, p = .75, list = FALSE, times = 1)
+trainIndex <- caret::createDataPartition(churn$Churned, p = .70, list = FALSE, times = 1)
 churnTrain <- churn[ trainIndex,]
 churnTest <- churn[-trainIndex, ]
 ```
@@ -249,7 +249,7 @@ model <- train(
   Churned ~ .,
   tuneLength = 3,
   data = churnTrain, 
-  method = "ranger",
+  method = "rf",
   trControl = fitControl
 )
 ```
