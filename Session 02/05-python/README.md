@@ -12,7 +12,13 @@ choco install -y python3
 
 ## Installing Python in Mac (using homebrew)
 
-First we must install [HomeBrew](https://brew.sh) using the terminal:
+Open your Terminal app on your Mac and run the copy/paste the following command into the Terminal to install XCode onto your Mac:
+
+``` 
+xcode-select --install
+``` 
+
+Then we can install [HomeBrew](https://brew.sh) using the terminal:
 
 ``` 
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -24,17 +30,7 @@ Now we can install the latest version of python:
 brew install python3
 ``` 
 
-## Creating an environment
-
-We can create a new folder, the new environment and we activate it:
-
-``` 
-mkdir python-projects
-python3 -m venv python-projects
-source python-projects/bin/activate
-``` 
-
-## Managing software packages for Python
+## Managing software packages using an environemnt
 
 We will need to install [pip](https://pypi.org/project/pip/), [setuptools](https://pypi.org/project/setuptools/) and [wheel](https://pypi.org/project/wheel/) (recommended for the installation of other packages):
 
@@ -42,22 +38,19 @@ We will need to install [pip](https://pypi.org/project/pip/), [setuptools](https
 pip3 install --upgrade pip setuptools wheel
 ``` 
 
-## Creating an environment (alternative)
-
 We can use a package that will help us to create an environment and the folder that we will use for our projects:
 
 ``` 
 pip3 install virtualenv virtualenvwrapper
-mkdir ~/python-projects
+mkdir ~/python-ca
 ``` 
 
-We configure the environment (in my case ca, other paths can be considered):
+We configure the environment (in my case python-ca, use your folder):
 
 ``` 
 echo '# needed for virtualenvwrapper' >> ~/.profile
 echo export 'WORKON_HOME=$HOME/.virtualenvs' >> ~/.profile
-# replace Projects with the name you gave your folder
-echo export 'PROJECT_HOME=$HOME/python-projects' >> ~/.profile
+echo export 'PROJECT_HOME=$HOME/python-ca' >> ~/.profile
 echo export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3 >> ~/.profile
 echo export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv >> ~/.profile
 echo export PIP_REQUIRE_VIRTUALENV=true >> ~/.profile
@@ -65,16 +58,16 @@ echo source /usr/local/bin/virtualenvwrapper.sh >> ~/.profile
 source ~/.profile
 ``` 
 
-We active our environment (in our case ca - customer analytics-) with:
+We active our environment with:
 
 ``` 
-mkvirtualenv python-projects
+mkvirtualenv python-ca
 ``` 
 
 Each time we want to work with the environment just execute:
 
 ``` 
-workon python-projects
+workon python-ca
 ``` 
 
 ## Updating your packages
@@ -94,7 +87,7 @@ pip3 install pip-upgrader
 then we excute it (It will work, if you have a requirements.txt file in your folder):
 
 ``` 
-cd python-projects
+cd python-ca
 pip-upgrade
 ``` 
 
@@ -118,7 +111,7 @@ pip3 install jupyter
 Run Jupyter with:
 
 ``` 
-Jupyter notebook
+jupyter notebook
 ``` 
 
 ## Upgrading python
