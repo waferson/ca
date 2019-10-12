@@ -45,7 +45,7 @@ df
 
 ## Loading R script
 
-We will work a funtion created by Glenn Solomon, Shachi Parikh, Jordan McIntyre, Brian Silverman, Tejaswi Namana, Maaz Rehan, Koba Khitalishivli (considering the article by Fader and Hardie).
+We will work a function created by Glenn Solomon, Shachi Parikh, Jordan McIntyre, Brian Silverman, Tejaswi Namana, Maaz Rehan, Koba Khitalishivli (considering the article by Fader and Hardie).
 
 ```{r}
 # Load the functions
@@ -63,45 +63,45 @@ alphabeta
 
 ## Predicting the behaviour
 
-Once we have the distribution we are able to obtain several prediction using the distribution:
+Once we have the distribution, we are able to obtain several prediction using the distribution:
 
-- Survival probabilities for 10 periods
+- Survival probabilities for 10 periods:
 
 ```{r}
 survivalBG(alphabeta[1],alphabeta[2],1:10)
 ```
 
-- Churn probabilities for 10 periods
+- Churn probabilities for 10 periods:
 
 ```{r}
 churnBG(alphabeta[1],alphabeta[2],1:10)
 ```
 
-- Get the retention rates for 10 periods
+- Get the retention rates for 10 periods:
 
 ```{r}
 retentionRates(alphabeta[1],alphabeta[2],1:10)
 ```
 
-- Discounted Expected Lifetime
+- Discounted Expected Lifetime:
 
 ```{r}
 DEL(alphabeta[1],alphabeta[2],discount = 0.1)
 ```
 
-- Discounted Expected Residual Lifetime
+- Discounted Expected Residual Lifetime:
 
 ```{r}
 DERL(alphabeta[1],alphabeta[2],discount = 0.1, renewals = 4)
 ```
 
-- Expected Lifetime Value per customer assuming expected net cash flow is 100$ per period
+- Expected Lifetime Value per customer assuming expected net cash flow is 100$ per period:
 
 ```{r}
 DEL(alphabeta[1],alphabeta[2],discount = 0.1)*100
 ```
 
-- Expected Residual Lifetime Value per customer who renewed 4 times assuming expected net cash flow is 100$ per period
+- Expected Residual Lifetime Value per customer who renewed 4 times assuming expected net cash flow is 100$ per period:
 
 ```{r}
 DERL(alphabeta[1],alphabeta[2],renewals = 4, discount = 0.1)*100
