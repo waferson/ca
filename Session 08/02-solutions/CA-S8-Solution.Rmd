@@ -1,7 +1,7 @@
 ---
-title: "CA - S8: Solution"
+title: "CA - S8: Solutions"
 author: Josep Curto, IE Business School
-abstract: "This document is the solution of the exercises of session 8."
+abstract: "This document introduces how to calculate Customer Segmentation with R. In particular, with k-means."
 keywords: "r, customer segmentation"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
@@ -12,139 +12,373 @@ output:
     self_contained: yes
 ---
 
-# Data Import
+# Wholesale customers Data Set
+
+We will consider the following data set: [Wholesale customers Data Set](Abreu, N. (2011). *Analise do perfil do cliente Recheio e desenvolvimento de um sistema promocional. Mestrado em Marketing*, ISCTE-IUL, Lisbon)
+ 
+It contains the following attributes:
+
+ - FRESH: annual spending (m.u.) on fresh products (Continuous); 
+ - MILK: annual spending (m.u.) on milk products (Continuous); 
+ - GROCERY: annual spending (m.u.) on grocery products (Continuous); 
+ - FROZEN: annual spending (m.u.) on frozen products (Continuous) 
+ - DETERGENTS_PAPER: annual spending (m.u.) on detergents and paper products (Continuous) 
+ - DELICATESSEN: annual spending (m.u.) on and delicatessen products (Continuous); 
+ - CHANNEL: customers Channel - Horeca (Hotel/Restaurant/Café) or Retail channel (Category) 
+ - REGION: customers Region of Lisbon, Oporto or Other (Category) 
+
+# Calculate Customer Segmentation with R
 
 ## Load packages
 
-```{r}
+```{r packages, warning=FALSE, echo=FALSE, message=FALSE}
 # Cleaning the environment
 rm(list=ls())
 
 # List of packages for session
-.packages = c("ggplot2", "NbClust","ggfortify","GGally","cluster", "factoextra","dplyr")
+.packages = c("ggplot2", "NbClust","ggfortify","GGally","cluster","factoextra","clustertend")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-lapply(.packages, require, character.only=TRUE)
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(NbClust))
+suppressPackageStartupMessages(library(ggfortify))
+suppressPackageStartupMessages(library(GGally))
+suppressPackageStartupMessages(library(cluster))
+suppressPackageStartupMessages(library(factoextra))
+suppressPackageStartupMessages(library(clustertend))
 ```
 
 ## Loading data
 
-First, we load the data:
+We need a seed to be able to reproduce our analysis:
 
 ```{r}
+set.seed(42)
+```
+
+First, we load the data:
+
+```{r loading data}
 data <- read.csv('data/s8.csv', header = T,sep=',')
 ```
 
-# Question 1
+Let's try to understant our data set. Fist the structure:
 
-**What happens if we consider 4 clusters?**
-
-This questions refers to the original data set where 4 clusters was as good as 2 clusters (and three). We just need to execute kmeans on the original dataset with k=4.
-
-```{r}
-fit <- kmeans(scale(data), 4)
+```{r structure}
+str(data)
 ```
 
-We need to understand the new groups using the average
+Second the main statistics:
+
+```{r summary}
+summary(data)
+```
+
+And now the correlation between different variables:
+
+```{r correlation}
+ggcorr(data, label = TRUE, label_size = 4, label_round = 2, size = 2)
+```
+
+**Question: What we can observe?**
+
+# Hopkins Statistic
+
+We need to statistically evaluate clustering tendency:
+
+```{r}
+hopkins(data,n = nrow(data)-1)
+```
+
+# PCA
+
+Do we have too many variables? We use a technique call Principal Component Analysis. 
+
+**Principal component analysis** (or PCA), is a linear transformation of the data which looks for the axis where the data has the most variance. PCA will create new variables which are linear combinations of the original ones, these new variables will be orthogonal (i.e. correlation equals to zero). PCA can be seen as a rotation of the initial space to find more suitable axis to express the variability in the data.
+On the new variables have been created, you can select the most important ones. The threshold is up-to-you and depends on how much variance you want to keep.
+
+>Note: Since PCA is linear, it mostly works on linearly separable data. Hence, if you want to perform classification on non-linear data, linear PCA will probably make you lose a lot of information. There is another technique called kernel PCA that can work on nonlinearly separable data.
+
+What if we apply PCA to the whole data set:
+
+```{r pca}
+pca <- prcomp(data, scale=TRUE)
+pca
+```
+
+```{r pca summary}
+summary(pca)
+```
+
+How many (pc) variables do we need to explain our data set:
+
+```{r pca plot}
+screeplot(pca, type="lines",col=3)
+```
+
+```{r pc1 vs pc2}
+autoplot(pca, data = data)
+```
+
+Let's add some color:
+
+```{r}
+autoplot(pca, data = data, colour = 'Channel')
+```
+
+One more graph (with eigenvalues):
+
+```{r}
+autoplot(pca, data = data, colour = 'Channel', loadings = TRUE, loadings.colour = 'blue',
+         loadings.label = TRUE, loadings.label.size = 3)
+```
+
+# Customer Segmentation
+
+We need to scale the data to compare diferent magnitudes. This is call data normalization.
+
+```{r}
+df <- scale(data) 
+```
+
+We will use Kmeans for our analysis. We need to determine the right number of clusters. 
+
+**[Option 1]** Elbow method. The location of a bend (knee) in the plot is generally considered as an indicator of the appropriate number of clusters.
+
+```{r}
+fviz_nbclust(df, kmeans, method = "wss") +
+    geom_vline(xintercept = 2, linetype = 2)
+```
+
+Two clusters is suggested.
+
+**[Option 2]** Average silhouette method. Briefly, it measures the quality of a clustering. That is, it determines how well each object lies within its cluster. A high average silhouette width indicates a good clustering. The location of the maximum is considered as the appropriate number of clusters.
+
+```{r}
+fviz_nbclust(df, kmeans, method = "silhouette")
+```
+
+Three clusters is suggested.
+
+**[Option 3]** Nbclust. It provides 30 indices for determining the relevant number of clusters and proposes to users the best clustering scheme from the different results obtained by varying all combinations of number of clusters, distance measures, and clustering methods.
+
+```{r}
+res <- NbClust(df, diss=NULL, distance = "euclidean", min.nc=2, max.nc=20, 
+             method = "kmeans", index = "all")
+```
+
+This is the graphical summary.
+
+```{r}
+fviz_nbclust(res) + theme_minimal()
+```
+
+Again 2 is suggested. But there are other options (19!). 
+
+Let's create two (the recommended option) and repeat the process 20 times:
+
+```{r}
+fit <- kmeans(df, centers = 2, nstart = 20)
+```
+
+What the fit object contains?
+
+```{r}
+fit$centers
+fit$size
+```
+
+We need to understand the new groups using the average:
 
 ```{r}
 clusters <- aggregate(data,by=list(fit$cluster),FUN=mean)
 clusters
 ```
 
-What do we have here? We have four groups.
-
- - Two for each channel.
- - **Group 1**: They buy online. They buy mainly fresh and bits of the rest. Let's call them "Single & Healthy". 
- - **Group 2**: They buy online. They buy a great amount of fresh and some of the rest. Almost double of group 2 (in the rest). Let's call them "Couple & Healthy". 
- - **Group 3**: They buy offline. They buy a great amount of milk, grocery, detergents_paper and fresh. They are a family.
- - **Group 4**: They buy offline. They buy a great amount of grocery, fresh, and milk and detergent_paper. They may be a young and healthy couple.
- 
-That means we have a more precise description of our customers. As you can imagine with more attributes (for example, demographic) we will be able to create a more accurate definition.
-
-We can add back the segmentation.
+We can add back the segmentation:
 
 ```{r}
-df.clusters <- data.frame(data, cluster=fit$cluster)
-df.clusters
+data_cluster <- data.frame(data, Cluster = fit$cluster)
+head(data_cluster)
 ```
 
-We can ask how many do we have.
+Let's make a plot:
 
 ```{r}
-customerSegmentation <- count(df.clusters, cluster)
-customerSegmentation
+ggplot(data, aes(Fresh, Detergents_Paper, color = as.factor(fit$cluster))) + geom_point()
 ```
+
+Finally we need to assess the quality of our cluster. We will use the silhoutte analysis (a cluster validation approach that measures how well an observation is clustered and it estimates the average distance between clusters).
+
+```{r}
+sil <- silhouette(fit$cluster, dist(df))
+fviz_silhouette(sil)
+```
+
+We can observe that there are some observations placed in the wrong cluster (as the value is negative). We can indentify the observations with negative silhouette:
+
+```{r}
+neg_sil_index <- which(sil[, "sil_width"] < 0)
+sil[neg_sil_index, , drop = FALSE]
+```
+
+# Question 1
+
+**What happens if we consider 3 clusters?**
+
+We are going to reuse the code. With the minimal changes (in this case the number of clusters). Let's create three and repeat the process 20 times:
+
+```{r}
+fit3 <- kmeans(df, centers = 3, nstart = 20)
+```
+
+What the fit object contains?
+
+```{r}
+fit3$centers
+fit3$size
+```
+
+We need to understand the new groups using the average:
+
+```{r}
+clusters3 <- aggregate(data,by=list(fit3$cluster),FUN=mean)
+clusters3
+```
+
+We can add back the segmentation:
+
+```{r}
+data_cluster3 <- data.frame(data, Cluster = fit3$cluster)
+head(data_cluster3)
+```
+
+Let's make a plot:
+
+```{r}
+ggplot(data, aes(Fresh, Detergents_Paper, color = as.factor(fit3$cluster))) + geom_point()
+```
+
+Finally we need to assess the quality of our cluster. We will use the silhoutte analysis (a cluster validation approach that measures how well an observation is clustered and it estimates the average distance between clusters).
+
+```{r}
+sil3 <- silhouette(fit3$cluster, dist(df))
+fviz_silhouette(sil3)
+```
+
+We can observe that there are some observations placed in the wrong cluster (as the value is negative). We can indentify the observations with negative silhouette:
+
+```{r}
+neg_sil_index3 <- which(sil3[, "sil_width"] < 0)
+sil3[neg_sil_index3, , drop = FALSE]
+```
+
+Response: According to silhouette analysis, this option is worse than having two clusters.
 
 # Question 2
 
-**What happens if we make the same analysis without the columns channel and region?**
+**What happens if we consider 19 clusters?** We are going to follow the same process as in question 1 (changing 3 by 19)
 
-Consider the following data frame:
+Let's create three and repeat the process 20 times:
 
 ```{r}
-df <- data[-(1:2)]
-df
+fit19 <- kmeans(df, centers = 19, nstart = 20)
 ```
 
-## PCA
-
-Do we have too many variables? We use a technique call PCA (Principal Component Analysis). What if we apply PCA to the whole data set:
+What the fit object contains?
 
 ```{r}
-pca <- prcomp(df, scale=TRUE)
-pca
+fit19$centers
+fit19$size
 ```
 
+We need to understand the new groups using the average:
+
 ```{r}
-summary(pca)
+clusters19 <- aggregate(data,by=list(fit19$cluster),FUN=mean)
+clusters19
 ```
 
-It does not make sense to get rid of any customer attribute.
-
-## Customer Segmentation
-
-We need to be able to reproduce our analysis:
+We can add back the segmentation:
 
 ```{r}
-set.seed(1234)
+data_cluster19 <- data.frame(data, Cluster = fit19$cluster)
+head(data_cluster19)
 ```
 
-We need to scale the data to compare diferent magnitudes. This is call data normalization.
+Let's make a plot:
 
 ```{r}
-df.scaled <- scale(df) 
+ggplot(data, aes(Fresh, Detergents_Paper, color = as.factor(fit19$cluster))) + geom_point()
 ```
 
-We will use Kmeans for our analysis. We need to determine the right number of clusters. We use NbClust. It provides 30 indices for determining the relevant number of clusters and proposes to users the best clustering scheme from the different results obtained by varying all combinations of number of clusters, distance measures, and clustering methods.
+Finally we need to assess the quality of our cluster. We will use the silhoutte analysis (a cluster validation approach that measures how well an observation is clustered and it estimates the average distance between clusters).
 
 ```{r}
-res <- NbClust(df.scaled, diss=NULL, distance = "euclidean", min.nc=2, max.nc=12, 
+sil19 <- silhouette(fit19$cluster, dist(df))
+fviz_silhouette(sil19)
+```
+
+We can observe that there are some observations placed in the wrong cluster (as the value is negative). We can indentify the observations with negative silhouette:
+
+```{r}
+neg_sil_index19 <- which(sil19[, "sil_width"] < 0)
+sil19[neg_sil_index19, , drop = FALSE]
+```
+
+Response: According to silhouette analysis, this option is worse than having two and three clusters.
+
+# Question 3
+
+**What happens if we make the same analysis without the columns channel and region? Consider the following data frame**:
+
+```{r}
+df2 <- data[-(1:2)]
+df2
+```
+
+We must scale the data:
+
+```{r}
+df3 <- scale(df2) 
+```
+
+Let's discover the optimal number of clusters again.
+
+```{r}
+res <- NbClust(df3, diss=NULL, distance = "euclidean", min.nc=2, max.nc=20, 
              method = "kmeans", index = "all")
+```
 
+This is the graphical summary.
+
+```{r}
 fviz_nbclust(res) + theme_minimal()
 ```
 
-This time is more clear that 2 is the optimal number of clusters and 3 and 10 are the second suboptimal options!
+One more time, 2 is the optimal number.
+
+Let's find the clusters:
 
 ```{r}
-fit <- kmeans(df.scaled, 2)
+fit_2 <- kmeans(df, centers = 3, nstart = 20)
 ```
 
-We need to understand the new groups using the average
+Let's review the silhouette:
 
 ```{r}
-clusters <- aggregate(df,by=list(fit$cluster),FUN=mean)
-clusters
+sil_2 <- silhouette(fit_2$cluster, dist(df3))
+fviz_silhouette(sil_2)
 ```
 
-With two clusters we obtain similar results. Two groups: families (group 2) vs. healthy. We can add back the segmentation.
+# Question 5
 
-```{r}
-df <- data.frame(df, cluster=fit$cluster)
-df
-```
+**Which segmentation makes more sense (considering all columns or without channel and region)? Use silhouette analysis.**
+
+After all the analysis, it is clear the first analysis was the best one. It is clear that more work must be done to improve the silhouette value.
+
+
