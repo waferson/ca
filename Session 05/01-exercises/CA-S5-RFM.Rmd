@@ -150,3 +150,7 @@ write.csv(dfRFM,"data/RFM.csv")
 Q1. Can you create a segmentation for frequency and monetary?
 
 Q2. Can you create a segmentation considering all RFM values? Hint: use the segments presented in the article.
+
+# Alternative
+
+- [Creating an RFM Summary Using Excel](http://www.brucehardie.com/notes/022/) by Peter Fader and Bruce Hardie (2008) 

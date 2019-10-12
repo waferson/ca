@@ -1,0 +1,117 @@
+---
+title: "CA - S4: CLV with R (Contractual Setting)"
+author: Josep Curto
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  html_notebook: 
+    fig_caption: yes
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+---
+
+# CLV in a Contractual Setting
+
+This example is based on the paper [How to project customer retention](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.558.935&rep=rep1&type=pdf) Fader and Hardie (2007). This paper introduces a discrete-time model for contract duration (in a contractual setting).
+
+According to Fader and Hardie:
+
+- By “discrete-time,” we mean that transactions can occur only at fixed points in time (e.g., the annual renewal cycles for most professional organizations). This is in contrast to continuous-time, where the transactions can occur at any point in time (e.g., the cancelation of basic utility contracts).
+- In a “contractual” setting, the time at which the customer becomes inactive is observed (e.g., when the customer fails to renew a subscription). This is in contrast to a “noncontractual” setting, where the absence of a contract or subscription means that the point in time at which the customer becomes inactive is not observed by the firm (e.g., a catalog retailer). The challenge is how to differentiate between a customer who has ended a “relation- ship” with the firm versus one who is merely in the midst of a long hiatus between transactions.
+
+That means, other escenarios will be represented by different distributions. The distribution to discribe the specific behaviour is the shifted beta geometric distribution (sBG).
+
+## Load packages
+
+```{r}
+# List of packages for session
+.packages = c("readxl")
+
+# Install CRAN packages (if not already installed)
+.inst <- .packages %in% installed.packages()
+if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
+
+# Load packages into session 
+suppressPackageStartupMessages(library(readxl))
+```
+
+## Loading data
+
+```{r}
+# Load data into a dataframe
+df <- read_excel("data/s4.xlsx", sheet = "ex2")
+df
+```
+
+## Loading R script
+
+We will work a funtion created by Glenn Solomon, Shachi Parikh, Jordan McIntyre, Brian Silverman, Tejaswi Namana, Maaz Rehan, Koba Khitalishivli (considering the article by Fader and Hardie).
+
+```{r}
+# Load the functions
+source("lib-BG.R")
+```
+
+## Finding parameters of the shifted beta geometric distribution (sBG)
+
+The shifted beta geometric distribution (sBG) will let us project customer retention and calculate customer lifetime value. First step is to calculate alpha and beta. That means, to estimate the maximum likelihood function to get the alpha, beta values
+
+```{r, warning=F}
+alphabeta <- estimateMLL(df$activeCust, df$lostCust)$par
+alphabeta
+```
+
+## Predicting the behaviour
+
+Once we have the distribution we are able to obtain several prediction using the distribution:
+
+- Survival probabilities for 10 periods
+
+```{r}
+survivalBG(alphabeta[1],alphabeta[2],1:10)
+```
+
+- Churn probabilities for 10 periods
+
+```{r}
+churnBG(alphabeta[1],alphabeta[2],1:10)
+```
+
+- Get the retention rates for 10 periods
+
+```{r}
+retentionRates(alphabeta[1],alphabeta[2],1:10)
+```
+
+- Discounted Expected Lifetime
+
+```{r}
+DEL(alphabeta[1],alphabeta[2],discount = 0.1)
+```
+
+- Discounted Expected Residual Lifetime
+
+```{r}
+DERL(alphabeta[1],alphabeta[2],discount = 0.1, renewals = 4)
+```
+
+- Expected Lifetime Value per customer assuming expected net cash flow is 100$ per period
+
+```{r}
+DEL(alphabeta[1],alphabeta[2],discount = 0.1)*100
+```
+
+- Expected Residual Lifetime Value per customer who renewed 4 times assuming expected net cash flow is 100$ per period
+
+```{r}
+DERL(alphabeta[1],alphabeta[2],renewals = 4, discount = 0.1)*100
+```
+
+## References
+
+- [How to Project Customer Retention](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.558.935&rep=rep1&type=pdf) by Peter Fader and Bruce Hardie (2007)
+- [Fitting the sBG Model to Multi-Cohort Data](http://brucehardie.com/notes/017/) by Peter Fader and Bruce Hardie (2007)
+- [Probability Models for Customer-Base Analysis](https://faculty.wharton.upenn.edu/wp-content/uploads/2012/04/Fader_hardie_jim_09.pdf) by Peter Fader and Bruce Hardie (2009)
+- [A Customer Lifetime Value Framework for Customer Selection and Resource Allocation Strategy](https://blogs.darden.virginia.edu/venkatesanr/files/2012/07/CLV_ORA-JM.pdf) by Rajkumar Venkatesan and V. Kumar (2004)
+- [Exploring the Distribution of Customer Lifetime Value (in Contractual Settings)](http://www.brucehardie.com/notes/035/) by Peter Fader and Bruce Hardie (2017)
+- [The Mean and Variance of Customer Lifetime Value in Contractual Settings](http://www.brucehardie.com/notes/036/) by Peter Fader and Bruce Hardie (2018)
