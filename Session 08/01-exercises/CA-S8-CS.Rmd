@@ -57,7 +57,7 @@ suppressPackageStartupMessages(library(clustertend))
 We need a seed to be able to reproduce our analysis:
 
 ```{r}
-set.seed(1234)
+set.seed(42)
 ```
 
 First, we load the data:
@@ -101,8 +101,7 @@ Do we have too many variables? We use a technique call Principal Component Analy
 **Principal component analysis** (or PCA), is a linear transformation of the data which looks for the axis where the data has the most variance. PCA will create new variables which are linear combinations of the original ones, these new variables will be orthogonal (i.e. correlation equals to zero). PCA can be seen as a rotation of the initial space to find more suitable axis to express the variability in the data.
 On the new variables have been created, you can select the most important ones. The threshold is up-to-you and depends on how much variance you want to keep.
 
-*Note*: Since PCA is linear, it mostly works on linearly separable data. Hence, if you want to perform classification on non-linear data, linear PCA will probably make you lose a lot of information.
-There is another technique called kernel PCA that can work on nonlinearly separable data.
+>Note: Since PCA is linear, it mostly works on linearly separable data. Hence, if you want to perform classification on non-linear data, linear PCA will probably make you lose a lot of information. There is another technique called kernel PCA that can work on nonlinearly separable data.
 
 What if we apply PCA to the whole data set:
 
@@ -152,10 +151,10 @@ We will use Kmeans for our analysis. We need to determine the right number of cl
 
 ```{r}
 fviz_nbclust(df, kmeans, method = "wss") +
-    geom_vline(xintercept = 3, linetype = 2)
+    geom_vline(xintercept = 2, linetype = 2)
 ```
 
-Three clusters are suggested.
+Two clusters is suggested.
 
 **[Option 2]** Average silhouette method. Briefly, it measures the quality of a clustering. That is, it determines how well each object lies within its cluster. A high average silhouette width indicates a good clustering. The location of the maximum is considered as the appropriate number of clusters.
 
@@ -163,18 +162,24 @@ Three clusters are suggested.
 fviz_nbclust(df, kmeans, method = "silhouette")
 ```
 
-Five clusters are suggested.
+Three clusters is suggested.
 
 **[Option 3]** Nbclust. It provides 30 indices for determining the relevant number of clusters and proposes to users the best clustering scheme from the different results obtained by varying all combinations of number of clusters, distance measures, and clustering methods.
 
 ```{r}
 res <- NbClust(df, diss=NULL, distance = "euclidean", min.nc=2, max.nc=20, 
              method = "kmeans", index = "all")
+```
 
+This is the graphical summary.
+
+```{r}
 fviz_nbclust(res) + theme_minimal()
 ```
 
-Now we can create 2, 3 or 4 clusters. Let's create two (the recommended option) and repeat the process 20 times:
+Again 2 is suggested. But there are other options (19!). 
+
+Let's create two (the recommended option) and repeat the process 20 times:
 
 ```{r}
 fit <- kmeans(df, centers = 2, nstart = 20)
@@ -194,7 +199,7 @@ clusters <- aggregate(data,by=list(fit$cluster),FUN=mean)
 clusters
 ```
 
-We can add back the segmentation
+We can add back the segmentation:
 
 ```{r}
 data_cluster <- data.frame(data, Cluster = fit$cluster)
@@ -223,9 +228,13 @@ sil[neg_sil_index, , drop = FALSE]
 
 # Question 1
 
-What happens if we consider 4 clusters? 
+What happens if we consider 3 clusters? Or 19?
 
 # Question 2
+
+What happens if we consider 19 clusters?
+
+# Question 3
 
 What happens if we make the same analysis without the columns channel and region? Consider the following data frame:
 
@@ -233,3 +242,7 @@ What happens if we make the same analysis without the columns channel and region
 df2 <- data[-(1:2)]
 df2
 ```
+
+# Question 5
+
+Which segmentation makes more sense (considering all columns or without channel and region)? Use silhouette analysis.
