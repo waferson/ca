@@ -1,0 +1,369 @@
+---
+title: "CA - S4: CLV with R (Non-Contractual Setting)"
+author: Josep Curto
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  html_notebook: 
+    fig_caption: yes
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+---
+
+# CLV in a Non-Contractual Setting
+
+This example is based on the paper [Counting Your Customers: Who Are They and What Will They Do Next?” Management Science, 33, 1–24](https://pubsonline.informs.org/doi/abs/10.1287/mnsc.33.1.1) by Schmittlein, Morrison, and Colombo (1987) and the research of Fader and Hardie (creators of BTYD package, see references). This paper introduces a Pareto/NBD (negative binomial distribution) modeling of repeat-buying behavior in a non-contractual setting.
+
+## Load packages
+
+```{r}
+# List of packages for session
+.packages <- c("readxl","ggplot2", "BTYD", "reshape2", "plyr", "lubridate")
+
+# Install CRAN packages (if not already installed)
+.inst <- .packages %in% installed.packages()
+if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
+
+# Load packages into session 
+suppressPackageStartupMessages(library(readxl))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(BTYD))
+suppressPackageStartupMessages(library(reshape2))
+suppressPackageStartupMessages(library(plyr))
+suppressPackageStartupMessages(library(lubridate))
+```
+
+## Loading the data
+
+```{r}
+# Load data into a dataframe
+cdnowElog <- read_excel("data/s4.xlsx", sheet = "cdnowElog")
+cdnowElog
+```
+
+## Preparing the data
+
+Data are 10% of the cohort of customers who made their first transactions with online retailer CDNOW (founded 1994) in the first quarter of 1997. 
+
+We must prepare the data to the format needed in the model:
+
+```{r}
+elog <- cdnowElog[,c(2,3,5)]                   # we need these columns
+names(elog) <- c("cust","date","sales") # model functions expect these names
+
+# format date
+elog$date <- as.Date(as.character(elog$date), format="%Y%m%d")
+
+# Transaction-flow models, such as the Pareto/NBD, are concerned
+# with interpurchase intervals. 
+# Since we only have dates and there may be multiple purchases on a day
+# we merge all transactions that occurred on the same day 
+# using dc.MergeTransactionsOnSameDate()
+
+elog <- dc.MergeTransactionsOnSameDate(elog)
+```
+
+Let's review the output:
+
+```{r}
+head(elog)
+```
+
+and
+
+```{r}
+summary(elog)  # no NAs
+```
+
+It is important to notice that the equired data for model is: "customer-by-sufficient-statistic” (cbs) matrix with the 'sufficient' stats being: 
+
+- frequency of transaction
+- recency (time of last transaction) and
+- total time observed
+
+This matrix will be created internally by the algorithm.
+
+## Examining the data
+
+Make log plot and plot sales:
+
+```{r}
+ggplot(elog, aes(x=date,y=sales,group=cust))+
+    geom_line(alpha=0.1) +
+    scale_x_date() +
+    scale_y_log10() +
+    ggtitle("Sales for individual customers")+
+    ylab("Sales ($, US)") + xlab("") +
+    theme_minimal()
+```
+
+Look at days between orders and model describes rates via a gamma distribution across customers:
+
+```{r}
+purchaseFreq <- ddply(elog, .(cust), summarize, 
+     daysBetween = as.numeric(diff(date)))
+
+ggplot(purchaseFreq,aes(x=daysBetween)) +
+    geom_histogram(colour="grey", bins=30) +
+    xlab("Time between purchases (days)")  +
+    theme_minimal()
+```
+
+## Dividing the data
+
+We will divide the data into calibration set (to calibrate the model) and holdout set (to validate the model):
+
+```{r}
+# into a calibration phase
+# and a holdout phase
+
+# determine middle point for splitting
+(end.of.cal.period <-
+                min(elog$date)+as.numeric((max(elog$date)-min(elog$date))/2))
+
+
+# split data into train(calibration) and test (holdout) and make matrices
+data <- dc.ElogToCbsCbt(elog, per="week", 
+                T.cal=end.of.cal.period,
+                merge.same.date=TRUE, # not needed, we already did it
+                statistic = "freq")   # which CBT to return
+
+# take a look
+str(data)
+
+# cbs is short for "customer-by-sufficient-statistic” matrix
+#               with the sufficient stats being: 
+#                       frequency
+#                       recency (time of last transaction) and
+#                       total time observed
+
+# extract calibration matrix
+cal2.cbs <- as.matrix(data[[1]][[1]])
+str(cal2.cbs)
+```
+
+## Estimating the parametersfor the model
+
+The main model parameters are :
+ 
+- beta: unobserved shape parameter for dropout process
+- s: unobserved scale parameter for dropout process
+- r: unobserved shape parameter for NBD transaction 
+- alpha: unobserved scale parameter for NBD transaction
+
+The steps are:
+
+- Determine initial estimate:
+
+```{r}
+(params2 <- pnbd.EstimateParameters(cal2.cbs))
+```
+
+- Look at log likelihood:
+
+```{r}
+(LL <- pnbd.cbs.LL(params2, cal2.cbs))
+```
+
+- Make a series of estimates, see if they converge:
+
+```{r}
+p.matrix <- c(params2, LL)
+for (i in 1:20) {
+  params2 <- pnbd.EstimateParameters(cal2.cbs, params2)
+	LL <- pnbd.cbs.LL(params2, cal2.cbs)
+	p.matrix.row <- c(params2, LL)
+	p.matrix <- rbind(p.matrix, p.matrix.row)
+}
+
+# examine
+p.matrix
+```
+
+- Use final set of values
+
+```{r}
+(params2 <- p.matrix[dim(p.matrix)[1],1:4])
+```
+
+## Plot Log-LIKELIHOOD ISO-CONTOURS for main parameters
+
+Set up parameter names for a more descriptive result:
+
+```{r}
+param.names <- c("r", "alpha", "s", "beta")
+
+LL <- pnbd.cbs.LL(params2, cal2.cbs)
+
+dc.PlotLogLikelihoodContours(pnbd.cbs.LL, params2, cal.cbs = cal2.cbs , n.divs = 5,
+                            num.contour.lines = 7, zoom.percent = 0.3,
+                            allow.neg.params = FALSE, param.names = param.names)
+```
+
+## Plot GROUP DISTRIBUTION OF PROPENSITY TO PURCHASE, DROPOUT
+
+Plot the estimated distribution of lambda (customers' propensities to purchase):
+
+```{r}
+pnbd.PlotTransactionRateHeterogeneity(params2, lim = NULL)
+                                             # lim is upper xlim
+```
+
+# Plot estimated distribution of gamma (customers' propensities to drop out):
+
+```{r}
+pnbd.PlotDropoutRateHeterogeneity(params2)
+```
+
+## Examining individual predictions
+
+Estimate number transactions a new customer will make in 52 weeks
+
+```{r}
+pnbd.Expectation(params2, t = 52)
+```
+
+Expected characteristics for a specific individual, conditional on their purchasing behavior during calibration. We will consider one particular customer (1516):
+
+```{r}
+# calibration data for customer 1516
+# frequency("x"), recency("t.x") and total time observed("T.cal")
+
+cal2.cbs["1516",]
+x <- cal2.cbs["1516", "x"]         # x is frequency
+t.x <- cal2.cbs["1516", "t.x"]     # t.x is recency, ie time of last transactions
+T.cal <- cal2.cbs["1516", "T.cal"] # T.cal is total time observed
+```
+
+Estimate transactions in a T.star-long duration for that customer:
+
+```{r}
+pnbd.ConditionalExpectedTransactions(params2, T.star = 52, # weeks
+                                     x, t.x, T.cal)
+```
+
+## Probabolity a customer is alive at end of calibration/training
+
+```{r}
+x           # freq of purchase
+t.x         # week of last purchase
+T.cal <- 39 # week of end of cal, i.e. present
+pnbd.PAlive(params2, x, t.x, T.cal)
+```
+
+To visualize the distribution of P(Alive) across customers:
+
+```{r}
+params3 <- pnbd.EstimateParameters(cal2.cbs)
+p.alives <- pnbd.PAlive(params3, cal2.cbs[,"x"], cal2.cbs[,"t.x"], cal2.cbs[,"T.cal"])
+
+ggplot(as.data.frame(p.alives),aes(x=p.alives)) +
+    geom_histogram(colour="grey", bins=30) +
+    ylab("Number of Customers") +
+    xlab("Probability Customer is 'Live'") +
+    theme_minimal()
+```
+
+Plot actual & expected customers binned by num of repeat transactions:
+
+```{r}
+pnbd.PlotFrequencyInCalibration(params2, cal2.cbs, 
+      censor=10, title="Model vs. Reality during Calibration")
+```
+
+## How well does model do in houldout period? 
+
+Get holdout transactions from dataframe data, add in as x.star
+
+```{r}
+x.star   <- data[[2]][[2]][,1]
+cal2.cbs <- cbind(cal2.cbs, x.star)
+str(cal2.cbs)
+
+holdoutdates <- attributes(data[[2]][[1]])[[2]][[2]]
+holdoutlength <- round(as.numeric(max(as.Date(holdoutdates))-
+                                  min(as.Date(holdoutdates)))/7)
+```
+
+Plot predicted vs seen conditional freqs and get matrix 'comp' w values:
+
+```{r}
+T.star <- holdoutlength
+censor <- 10 # Bin all order numbers here and above
+comp <- pnbd.PlotFreqVsConditionalExpectedFrequency(params2, T.star,
+           cal2.cbs, x.star, censor)
+rownames(comp) <- c("act", "exp", "bin")
+comp
+```
+
+Plot predicted vs actual by week:
+
+```{r}
+# get data without first transaction, this removes those who buy 1x
+removedFirst.elog <- dc.SplitUpElogForRepeatTrans(elog)$repeat.trans.elog
+removedFirst.cbt <- dc.CreateFreqCBT(removedFirst.elog)
+
+# get all data, so we have customers who buy 1x
+allCust.cbt <- dc.CreateFreqCBT(elog)
+
+# add 1x customers into matrix
+tot.cbt <- dc.MergeCustomers(data.correct=allCust.cbt, 
+                             data.to.correct=removedFirst.cbt)
+
+lengthInDays <- as.numeric(max(as.Date(colnames(tot.cbt)))-
+                           min(as.Date(colnames(tot.cbt))))
+origin <- min(as.Date(colnames(tot.cbt)))
+
+tot.cbt.df <- melt(tot.cbt,varnames=c("cust","date"),value.name="Freq")
+tot.cbt.df$date<-as.Date(tot.cbt.df$date)
+tot.cbt.df$week<-as.numeric(1+floor((tot.cbt.df$date-origin+1)/7))
+
+transactByDay  <- ddply(tot.cbt.df,.(date),summarize,sum(Freq))
+transactByWeek <- ddply(tot.cbt.df,.(week),summarize,sum(Freq))
+names(transactByWeek) <- c("week","Transactions")
+names(transactByDay)  <- c("date","Transactions")
+
+T.cal <- cal2.cbs[,"T.cal"]
+T.tot <- 78 # end of holdout
+comparisonByWeek <- pnbd.PlotTrackingInc(params2, T.cal,
+                     T.tot, actual.inc.tracking.data=transactByWeek$Transactions)
+```
+
+# Formal Measure of accuracy
+
+Last step is to determine the accuracy of our model:
+
+```{r}
+# root mean squared error
+rmse <- function(est, act) { return(sqrt(mean((est-act)^2))) }
+
+# mean squared logarithmic error
+msle <- function(est, act) { return(mean((log1p(est)-log1p(act))^2)) }
+
+str(cal2.cbs)
+
+cal2.cbs[,"x"]
+
+predict<-pnbd.ConditionalExpectedTransactions(params2, T.star = 38, # weeks
+                                     x     = cal2.cbs[,"x"], 
+                                     t.x   = cal2.cbs[,"t.x"], 
+                                     T.cal = cal2.cbs[,"T.cal"])
+
+cal2.cbs[,"x.star"]  # actual transactions for each person
+
+rmse(act=cal2.cbs[,"x.star"],est=predict)
+msle(act=cal2.cbs[,"x.star"],est=predict)
+```
+
+## Question
+
+**Is this better than guessing?**
+
+## References
+
+- [A Spreadsheet-Literate Non-Statistician's Guide to the Beta-Geometric Model](http://www.brucehardie.com/notes/032/) by Peter Fader and Bruce Hardie (2014)
+- [Creating a Depth-of-Repeat Sales Summary Using Excel](http://www.brucehardie.com/notes/006/) by Peter Fader and Bruce Hardie (2004)
+- [Implementing the BG/BB Model for Customer-Base Analysis in Excel](http://www.brucehardie.com/notes/010/) by Peter Fader and Bruce Hardie (2011)
+- [Illustrating the Performance of the NBD as a Benchmark Model for Customer-Base Analysis](http://www.brucehardie.com/notes/005/) by Peter Fader and Bruce Hardie (2004)
+- [Other CLV Models](http://www.vkclv.com/about-clv/clv-models/)
+- [Spreadsheet to Accompany "A Note on an Integrated Model of Customer Buying Behavior"](http://www.brucehardie.com/notes/003/) by Peter Fader and Bruce Hardie (2002)
