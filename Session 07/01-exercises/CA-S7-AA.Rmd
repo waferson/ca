@@ -36,46 +36,58 @@ suppressPackageStartupMessages(library(arulesViz))
 
 First we load the data:
 
-```{r load data}
-# Load data
+```{r}
 edata <- read.csv("data/transactions_detail.csv",stringsAsFactors=FALSE, sep=',')
 ```
 
-The summary give is information about the attributes:
+The summary give us information about the attributes:
 
-```{r summary}
+```{r}
 summary(edata)
 ```
 
-It is needed to improve the data:
+## Data preparation (I)
 
-```{r prepare data}
-# data preparation
+Our data represents the transaction ID and the product description. We must transform the data type:
+
+```{r}
 edata$id_purchase <- factor(edata$id_purchase)
 edata$product <- factor(edata$product)
 ```
 
+## Exploratory Data Analysis (I)
+
+After the initial data preparation, we can observe:
+
+```{r}
+summary(edata)
+```
+
 We can try to answer few questions:
 
-```{r improve data}
-# Some insights
-length(unique(edata$id_purchase))
-nrow(edata)/length(unique(edata$id_purchase))
-sapply(split(edata$product,edata$product),length)
-pList<-t(as.data.frame(lapply(split(edata$product,edata$product),length)))
-head(pList[order(pList[,1], decreasing= T),], n = 1)
-tail(pList[order(pList[,1], decreasing= T),], n = 1)
+**How many transactions do we have**
 
-# Review data
-dim(edata)
-summary(edata)
+```{r}
+length(unique(edata$id_purchase))
+```
+
+**How many products per transaction (in average)**
+
+```{r}
+nrow(edata)/length(unique(edata$id_purchase))
+```
+
+**How popular is each one of the products**
+
+```{r}
+sapply(split(edata$product,edata$product),length)
 ```
 
 **Question: What we can observe?**
 
-# Data Preparation
+## Data Preparation (II)
 
-## Creating transactions
+We can prepare further our data creating transactions:
 
 ```{r}
 # Prepare data
@@ -84,19 +96,54 @@ i <- split (edata$product, edata$id_purchase)
 # Transform into transaction object
 txn <- as(i,"transactions")
 txn
+```
 
-# Explore transactions
+## Exploratory Data Analysis (II)
+
+Let's explore this new object:
+
+```{r}
 summary(txn)
+```
+
+We can review the content:
+
+```{r}
 inspect(txn)
+```
 
-# Inspect binary incidence matrices
+We can inspect binary incidence matrices
+
+```{r}
 image(txn)
+```
 
+We can obtain the popularity of the products:
+
+```{r}
 # Product frequency
 itemFrequency(txn)
+```
 
+```{r}
 # Plot the frequency of items sets
 itemFrequencyPlot(txn)
+```
+
+And the popularity of the transactions:
+
+```{r}
+frequentItems <- eclat(txn, parameter = list(supp = 0.01, maxlen = 15))
+```
+
+```{r}
+inspect(frequentItems)
+```
+
+Plot frequent items:
+
+```{r}
+itemFrequencyPlot(txn, topN=10, type="absolute", main="Item Frequency")
 ```
 
 ## Understanding product correlation
@@ -129,7 +176,7 @@ summary(basket_rules)
 We can review the result (and order by lift)
 
 ```{r inspect rule}
-inspect(basket_rules, by = "lift")
+inspect(basket_rules, by = "lift", decreasing=TRUE)
 ```
 
 We can find the significant rules:
@@ -196,10 +243,10 @@ The summary of the result:
 summary(basket_rules.refined)
 ```
 
-And the rules we obtain are:
+Let's obtain the top 10 rules by lift:
 
 ```{r}
-inspect(head(basket_rules.refined, n=8, by = "lift"))
+inspect(head(basket_rules.refined, n=10, by = "lift"))
 ```
 
 An itemset is maximal frequent if none of its immediate supersets is frequent. We can find the maximal rules:
@@ -213,7 +260,7 @@ inspect(basket_rules.refined[maximal])
 Subset based on an item
 
 ```{r}
-inspect(subset(basket_rules.refined, subset = items %in% "coffee"))
+inspect(subset(basket_rules.refined, subset = items %in% "pastry"))
 ```
 
 ## More visual Analytics
