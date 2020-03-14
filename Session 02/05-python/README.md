@@ -138,6 +138,22 @@ Open the terminal and execute:
 brew update && brew upgrade `brew outdated`
 ``` 
 
+## Cleaning not required files in brew
+
+Open the terminal and execute:
+
+``` 
+brew clean
+``` 
+
+## Checking that everything is right for brewing
+
+Open the terminal and execute:
+
+``` 
+brew doctor
+``` 
+
 ## Atom
 
 There are many GUI for Python. In our case, we are using [Atom](https://atom.io) and the package [hydrogen](https://atom.io/packages/hydrogen).

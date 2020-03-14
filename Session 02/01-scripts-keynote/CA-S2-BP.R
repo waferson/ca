@@ -2,8 +2,8 @@
 # 
 # IE - IMBA
 # Customer Analytics - S2 - Best Practices
-# Josep Curto | jcurto@faculty.ie.edu | 2019
-# Version: 1.1
+# Josep Curto | jcurto@faculty.ie.edu | 2020
+# Version: 1.2
 # 
 #############################################################################
 
@@ -17,11 +17,11 @@ rm(list=ls())
 cat("\f")
 
 # How to prepare the enviroment
-.packages = c("ggplot2")
+.packages <- c("ggplot2")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))

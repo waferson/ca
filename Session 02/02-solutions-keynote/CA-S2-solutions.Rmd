@@ -1,5 +1,6 @@
 ---
 title: "CA - S2: solutions"
+date: 2020
 output:
   html_notebook:
     theme: default

@@ -2,8 +2,8 @@
 # 
 # IE - IMBA
 # Customer Analytics - S2
-# Josep Curto | jcurto@faculty.ie.edu | 2019
-# Version: 1.2
+# Josep Curto | jcurto@faculty.ie.edu | 2020
+# Version: 1.3
 # 
 #############################################################################
 

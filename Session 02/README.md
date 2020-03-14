@@ -33,7 +33,8 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
 ### Rmarkdown
 
   - [Rmarkdown](https://rmarkdown.rstudio.com)
-  - [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)  
+  - [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
+  - [Rmarkdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
   - Templates:
     - [rticles](https://github.com/rstudio/rticles)
 
