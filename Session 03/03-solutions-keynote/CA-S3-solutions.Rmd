@@ -1,6 +1,7 @@
 ---
 title: "CA - S3: solutions"
 Author: Josep Curto, IE Business School 
+date: 2020
 output:
   html_notebook:
     toc: yes

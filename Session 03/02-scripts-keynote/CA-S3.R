@@ -2,8 +2,8 @@
 #
 # IE - IMBA
 # Customer Analytics - S3
-# Josep Curto | jcurto@faculty.ie.edu | 2019
-# Version: 1.2
+# Josep Curto | jcurto@faculty.ie.edu | 2020
+# Version: 1.3
 #
 #############################################################################
 
@@ -88,12 +88,12 @@ hello.person(last = "Gates")
 customerData <- read.csv(file.choose())
 
 # Load a csv file
-customerData <- read.csv("s3.csv")
+customerData <- read.csv("data/s3.csv")
 customerData
 
 #reading from a url
 fileURL <- "http://www.stats.ox.ac.uk/pub/datasets/csb/ch11b.dat"
-download.file(fileURL, destfile = "exampledata.dat")
+download.file(fileURL, destfile = "data/exampledata.dat")
 data <- read.table("exampledata.dat", header = TRUE)
 head(data)
 
@@ -112,13 +112,12 @@ load(file = "tomato.data")
 
 # Creating Graphs --------------------------------
 
-.packages = c("ggplot2", "dplyr")
+.packages <- c("ggplot2", "dplyr")
 .inst <- .packages %in% installed.packages()
 if (length(.packages[!.inst]) > 0)
   install.packages(.packages[!.inst])
 
-suppressPackageStartupMessages(library(ggplot2))
-suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 data("diamonds")
 
 ## We can use various options for geoms:

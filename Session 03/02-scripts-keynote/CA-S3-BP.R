@@ -2,8 +2,8 @@
 # 
 # IE - IMBA
 # Customer Analytics - S3 - Best Practices
-# Josep Curto | jcurto@faculty.ie.edu | 2019
-# Version: 1.2
+# Josep Curto | jcurto@faculty.ie.edu | 2020
+# Version: 1.3
 # 
 #############################################################################
 
@@ -17,12 +17,12 @@ hello.person("Michael","Jordan")
 
 # How to measure the performance of a similar code
 
-load("dataTB.rdatq")
-.packages = c("microbenchmark")
+load("data/dataTB.rdatq")
+.packages <- c("microbenchmark")
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
-suppressPackageStartupMessages(library(microbenchmark))
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 
 microbenchmark::microbenchmark(
   dataTickets$customer[which(dataTickets$final_price == max(dataTickets$final_price))], 
