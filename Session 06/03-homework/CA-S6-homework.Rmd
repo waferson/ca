@@ -1,22 +1,26 @@
 ---
-title: "CA - S6: homework"
-author: Josep Curto
-date: 2018
-output: 
-  html_notebook: 
-    fig_caption: yes
+title: 'CA - S6: homework'
+author: "Josep Curto, IE Business School"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    df_print: paged
     toc: yes
-    toc_depth: 4
+  html_notebook:
+    fig_caption: yes
+    self_contained: yes
+    toc: yes
     toc_float: yes
+keywords: r, nps
+abstract: This document introduces how to calculate NPS with R and customer sentiment
+  analysis
 ---
 
-# Exercises
+# Exercise
 
-Given the data set "nps_homework.xlsx" in the data folder, can you calculate the NPS?
+**Given the data set "nps_exercise.xlsx", can you calculate the NPS?** Recommended steps:
 
-Recommended steps:
-
-- Load the csv dataset
-- Not all the customers have answered the survey. Count how many answers do you have. Create a subset with those customer that completed the survey.
-- Calculate NPS for all the questions. The fields are: Likelihood_Recommend_H, Overall_Sat_H, Guest_Room_H, Tranquility_H, Condition_Hotel_H, Customer_SVC_H, Staff_Cared_H, Internet_Sat_H, Check_In_H, F.B_FREQ_H, F.B_Overall_Experience_H. Which is the best and worst aspects?
-- Split the NPS per region.
+ - Load the csv dataset
+ - Not all the customers have answered the survey. Count how many answers do you have. Create a subset with those customer that completed the survey.
+ - Calculate NPS for all the questions. The fields are: Likelihood_Recommend_H, Overall_Sat_H, Guest_Room_H, Tranquility_H, Condition_Hotel_H, Customer_SVC_H, Staff_Cared_H, Internet_Sat_H, Check_In_H, F.B_FREQ_H, F.B_Overall_Experience_H. Which is the best and worst aspects?
+ - Split the NPS per region.

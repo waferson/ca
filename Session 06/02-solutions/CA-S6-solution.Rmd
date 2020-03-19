@@ -23,14 +23,14 @@ We will use NPS, NPC, readr, janitor, tidytext, tidyr and dplyr packages.
 rm(list=ls())
 
 # List of packages for session
-.packages = c("NPS", "NPC","readxl","janitor","ggplot2")
+.packages <- c("NPS", "NPC","readxl","janitor","ggplot2")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-lapply(.packages, require, character.only=TRUE)
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 ```
 
 ## Loading data

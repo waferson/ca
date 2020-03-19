@@ -25,14 +25,14 @@ That means, other escenarios will be represented by different distributions. The
 
 ```{r}
 # List of packages for session
-.packages = c("readxl")
+.packages <- c("readxl")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-suppressPackageStartupMessages(library(readxl))
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 ```
 
 ## Loading data

@@ -1,15 +1,19 @@
 ---
-title: "CA - S6: Example"
-author: Josep Curto, IE Business School
-abstract: "This document introduces how to calculate NPS with R and customer sentiment analysis"
-keywords: "r, nps"
+title: 'CA - S6: Example'
+author: "Josep Curto, IE Business School"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
-output: 
-  html_notebook: 
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+  html_notebook:
     fig_caption: yes
+    self_contained: yes
     toc: yes
     toc_float: yes
-    self_contained: yes
+keywords: r, nps
+abstract: This document introduces how to calculate NPS with R and customer sentiment
+  analysis
 ---
 
 # Calculate NPS with R
@@ -23,21 +27,14 @@ We will use NPS, NPC, readr, janitor, tidytext, tidyr and dplyr packages.
 rm(list=ls())
 
 # List of packages for session
-.packages = c("NPS", "NPC","readr","janitor","tidytext","tidyr","dplyr","ggplot2")
+.packages <- c("NPS", "NPC","readr","janitor","tidytext","tidyr","dplyr","ggplot2")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-suppressPackageStartupMessages(library(NPS))
-suppressPackageStartupMessages(library(NPC))
-suppressPackageStartupMessages(library(readr))
-suppressPackageStartupMessages(library(janitor))
-suppressPackageStartupMessages(library(tidytext))
-suppressPackageStartupMessages(library(tidyr))
-suppressPackageStartupMessages(library(dplyr))
-suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 ```
 
 ## Loading data
@@ -163,11 +160,7 @@ ggplot(reply_sentiment, aes(sentiment)) +
   geom_bar(show.legend = FALSE,aes(fill = sentiment))
 ```
 
-# Exercise
-
-Given the data set "nps_exercise.xlsx", can you calculate the NPS?
-
-## More datasets to practice
+# More datasets to practice
 
  - [Amazon Reviews](http://jmcauley.ucsd.edu/data/amazon/)
  - [Amazon question/answer data](http://jmcauley.ucsd.edu/data/amazon/qa/)

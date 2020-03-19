@@ -20,16 +20,14 @@ We will use readr, dplyr and ggplot2 packages.
 
 ```{r packages, warning=FALSE, echo=FALSE, message=FALSE}
 # List of packages for session
-.packages = c("readr", "dplyr","ggplot2")
+.packages <- c("readr", "dplyr","ggplot2")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session
-suppressPackageStartupMessages(library(readr))
-suppressPackageStartupMessages(library(dplyr))
-suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 ```
 
 ## Load functions

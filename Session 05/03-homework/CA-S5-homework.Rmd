@@ -1,7 +1,7 @@
 ---
 title: "CA - S5: homework"
 author: Josep Curto
-date: 2018
+date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
   html_notebook: 
     fig_caption: yes
@@ -17,5 +17,5 @@ output:
  - Which RFM groups do we find?
  - What can you explain about this company?
  
- > Attention: when using the previous code, remember to place the RFM code in the right folder.
+ > Attention: when using the previous code, remember to place the RFM function in the right folder.
  

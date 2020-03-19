@@ -1,6 +1,6 @@
 # Author: Koba Khitalishvili
 #
-# I use Google's R style guide
+# It uses Google's R style guide
 # https://google.github.io/styleguide/Rguide.xml#functiondefinition
 #
 # A set of functions based on Peter Fader's and Bruce Hardie's research in using shifted beta 
@@ -175,4 +175,3 @@ DERL <- function(alpha,beta,renewals = 2,discount=0.025,periods = 70){
                sapply(seq(0,periods-renewals-1),function(x) 1/(1+discount)^x))
   )
 }
-

@@ -16,14 +16,14 @@ graphics.off()
 rm(list=ls())
 
 # List of packages for session
-.packages = c("readr", "dplyr","ggplot2")
+.packages <- c("readr", "dplyr","ggplot2")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) suppressMessages(install.packages(.packages[!.inst]))
 
 # Load packages into session 
-suppressMessages(lapply(.packages, library, character.only=TRUE))
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 
 # Load external functions
 source("RFM.R")
