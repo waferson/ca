@@ -16,14 +16,14 @@ graphics.off()
 rm(list=ls())
 
 # List of packages for session
-.packages = c("NPS")
+.packages <- c("NPS")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-lapply(.packages, library, character.only=TRUE)
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 
 # Data Set generation
 x <- sample(0:10, prob=c(0.02, 0.01, 0.01, 0.01, 0.01, 0.03, 0.03, 0.09,
