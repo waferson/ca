@@ -2,8 +2,8 @@
 # IE Business School
 # Customer Analytics
 # S7 - Association Analysis
-# @JosepCurto | jcurto@faculty.ie.edu | 2018
-# Version: 1.9
+# @JosepCurto | jcurto@faculty.ie.edu | 2020
+# Version: 2.0
 #############################################################################
 
 # Clear console
@@ -16,27 +16,27 @@ graphics.off()
 rm(list=ls())
 
 # List of packages for session
-.packages = c("arules", "arulesViz")
+.packages <- c("arules", "arulesViz")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-lapply(.packages, require, character.only=TRUE)
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 
 # Load data
-edata <- read.csv("data/s7.csv",stringsAsFactors=FALSE, sep=',')
+edata <- readRDS("data/transactions.RDs")
 
 # data preparation
-edata$id_purchase <- factor(edata$id_purchase)
-edata$product <- factor(edata$product)
+edata$id <- factor(edata$id)
+edata$item <- factor(edata$item)
 
 # Some insights
-length(unique(edata$id_purchase))
-nrow(edata)/length(unique(edata$id_purchase))
-sapply(split(edata$product,edata$product),length)
-pList<-t(as.data.frame(lapply(split(edata$product,edata$product),length)))
+length(unique(edata$ide))
+nrow(edata)/length(unique(edata$id))
+sapply(split(edata$item,edata$item),length)
+pList<-t(as.data.frame(lapply(split(edata$item,edata$item),length)))
 head(pList[order(pList[,1], decreasing= T),], n = 1)
 tail(pList[order(pList[,1], decreasing= T),], n = 1)
 
@@ -45,7 +45,7 @@ dim(edata)
 summary(edata)
 
 # Prepare data
-i <- split (edata$product, edata$id_purchase)
+i <- split (edata$item, edata$id)
 
 # Transform into transaction object
 txn <- as(i,"transactions")

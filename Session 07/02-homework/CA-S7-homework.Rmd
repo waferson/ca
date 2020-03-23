@@ -12,4 +12,5 @@ output:
 
 # Exercises
 
-Given the "WA_Fn-UseC_-Marketing-Campaign-Plan_-GroceryS.csv" file, try to use **Association Analysis** to understand marketing campaings. Is there any type of relationship between the types of stores/marketing approach and the type of customers?
+1) Given the "transactions_detail.csv" file, try to use **Association Analysis** to understand the purchasing patterns. 
+2) Given the "basket.dat" file, try to use **Association Analysis** to understand the purchasing patterns.

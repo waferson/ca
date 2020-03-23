@@ -21,14 +21,14 @@ output:
 rm(list=ls())
 
 # List of packages for session
-.packages = c("data.table")
+.packages <- c("data.table")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-suppressPackageStartupMessages(library(data.table))
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 ```
 
 ## Loading data
@@ -72,7 +72,7 @@ top_rated_movies[order(-mean_movie)][1:5]
 
 Calculating the percentage of ratings for each movie that are 4 stars or higher. Order with the highest percentage first, and plot the top 5 movies with more high ratings distribution.
 
-```{r fig.width=7, fig.height=6}
+```{r}
 top_rated_movies2 <- data.table()
 for (i in 1:ncol(df)){
   movie <- df[,i]
@@ -92,7 +92,7 @@ top_rated_movies2[order(-percentage)][1:5]
 
 Counting the number of ratings for each movie, order the one with most number of ratings first, submit the top 5.
 
-```{r fig.width=7, fig.height=6}
+```{r}
 top_rated_movies3 <- data.table()
 for (i in 1:ncol(df)){
   movie <- df[,i]
@@ -104,32 +104,11 @@ for (i in 1:ncol(df)){
 top_rated_movies3[order(-total_ratings)][1:5]
 ```
 
-## People who watched Star Wars IV also watched ...
-
-Calculate movies that most often occur with other movie. For each movie, calculate the percentage of the other movie raters who also rated that movie. Order with the highest percentage first, and submit the top 5. Select "Star.Wars.IV...A.New.Hope" movie by default.
-
-```{r fig.width=7, fig.height=6}
-StarWars_count <- sum((df[,1] >= 0), na.rm = T) 
-# Filter first the rows with a rating for the default movie and delete the column of the default movie to generate the (intersection x + y )
-df_StarWars_movie <- df[!is.na(df$`Star Wars IV - A New Hope`),][,-1]
-top_occurences <- data.table()
-for (i in 1:ncol(df_StarWars_movie)){
-  movie <- df_StarWars_movie[,i]
-  # ratings of the movie i 
-  other_movie = sum(movie >= 0, na.rm = T) # automatically retrieves the intersection as the df_StarWars_movie only contains ratings user watched both movie i and Star Wars
-  occ_percentage = other_movie / StarWars_count # devide intersection x + y by y 
-  top_occurences <- rbind(top_occurences, data.table(
-                               movie_name = colnames(df_StarWars_movie)[i],
-                               occ_percentage = occ_percentage));
-}
-top_occurences[order(-occ_percentage)][1:5]
-```
-
 ## People who liked Babe also liked...
 
 Calculate the movies better rated of people who liked a movie. Select the people who liked the movie "Babe" (4 or 5 stars) and provide the top 5 movies they liked most.
 
-```{r fig.width=7, fig.height=6}
+```{r}
 # number of total ratings of Babe
 Babe_count  <-  sum((df[,20] >= 0), na.rm = T) 
 # Filter first the rows with a rating for the default movie, filte than the ratings higher equal to four and delete the column of the default movie

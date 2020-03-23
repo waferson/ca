@@ -21,15 +21,14 @@ output:
 rm(list=ls())
 
 # List of packages for session
-.packages = c("arules","arulesViz")
+.packages <- c("arules","arulesViz")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-suppressPackageStartupMessages(library(arules))
-suppressPackageStartupMessages(library(arulesViz))
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 ```
 
 ## Loading data
@@ -37,7 +36,7 @@ suppressPackageStartupMessages(library(arulesViz))
 First we load the data:
 
 ```{r}
-edata <- read.csv("data/transactions_detail.csv",stringsAsFactors=FALSE, sep=',')
+edata <- readRDS("data/transactions.RDs")
 ```
 
 The summary give us information about the attributes:
@@ -51,8 +50,8 @@ summary(edata)
 Our data represents the transaction ID and the product description. We must transform the data type:
 
 ```{r}
-edata$id_purchase <- factor(edata$id_purchase)
-edata$product <- factor(edata$product)
+edata$id <- factor(edata$id)
+edata$item <- factor(edata$item)
 ```
 
 ## Exploratory Data Analysis (I)
@@ -68,19 +67,19 @@ We can try to answer few questions:
 **How many transactions do we have**
 
 ```{r}
-length(unique(edata$id_purchase))
+length(unique(edata$id))
 ```
 
 **How many products per transaction (in average)**
 
 ```{r}
-nrow(edata)/length(unique(edata$id_purchase))
+nrow(edata)/length(unique(edata$id))
 ```
 
 **How popular is each one of the products**
 
 ```{r}
-sapply(split(edata$product,edata$product),length)
+sapply(split(edata$item,edata$item),length)
 ```
 
 **Question: What we can observe?**
@@ -91,7 +90,7 @@ We can prepare further our data creating transactions:
 
 ```{r}
 # Prepare data
-i <- split (edata$product, edata$id_purchase)
+i <- split (edata$item, edata$id)
 
 # Transform into transaction object
 txn <- as(i,"transactions")
@@ -109,7 +108,7 @@ summary(txn)
 We can review the content:
 
 ```{r}
-inspect(txn)
+inspect(head(txn, n=15))
 ```
 
 We can inspect binary incidence matrices
@@ -176,7 +175,7 @@ summary(basket_rules)
 We can review the result (and order by lift)
 
 ```{r inspect rule}
-inspect(basket_rules, by = "lift", decreasing=TRUE)
+inspect(basket_rules, by = "lift", decreasing=TRUE, n=15)
 ```
 
 We can find the significant rules:
@@ -260,7 +259,7 @@ inspect(basket_rules.refined[maximal])
 Subset based on an item
 
 ```{r}
-inspect(subset(basket_rules.refined, subset = items %in% "pastry"))
+inspect(subset(basket_rules.refined, subset = items %in% "yogurt"))
 ```
 
 ## More visual Analytics
@@ -279,13 +278,6 @@ plot(basket_rules.refined,
      method="graph",
      measure="confidence",
      shading="lift", control=list(type="items"))
-```
-
-**Simplified Graph**
-
-```{r}
-plot(basket_rules.refined, method = "graph",
-     control = list(main = "Rules", type = "itemsets"))
 ```
 
 **Grouped Graph**
