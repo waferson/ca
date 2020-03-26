@@ -1,0 +1,522 @@
+---
+title: 'CA - S8: Partition Clustering'
+author: "Josep Curto, IE Business School"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_notebook:
+    fig_caption: yes
+    self_contained: yes
+    toc: yes
+    toc_float: yes
+keywords: r, customer segmentation, centroid-based clustering, density-based clustering
+abstract: This document introduces how to calculate Customer Segmentation with R.
+  In particular, with centroid-based and density-based clustering techniques.
+bibliography: partitionClustering.bib
+---
+
+# Partition-based Clustering
+
+*Partition-based Clustering* is an unsupervised machine learning method that allows you to find clusters based on partitions. The available options are: *centroid (or partition-relocation), density-based, grid-based or subspace-based*. 
+
+## Centroid-based Clustering
+
+Centroid-based clustering algorithms generate various partitions and then evaluate them by some criterion. They are also referred to as nonhierarchical as each instance is placed in exactly one of k mutually exclusive clusters. Because only one set of clusters is the output of a typical partitional clustering algorithm, the user is required to input the desired number of clusters (usually called k). 
+
+Some of the most traditional algorithms are:
+
+- **K-means**: in which, each cluster is represented by the center or means of the data points belonging to the cluster. The K-means method is sensitive to anomalous data points and outliers.
+- **K-medoids clustering or PAM (Partitioning Around Medoids)**: in which, each cluster is represented by one of the objects in the cluster. PAM is less sensitive to outliers compared to k-means.
+- **CLARA (Clustering Large Applications)**: which is an extension to PAM adapted for large data sets.
+
+## Density-based Clustering
+
+*Density Clustering* is an unsupervised machine learning method that allows you to find clusters based on density. In this type of segmentation, clusters are defined as dense point regions separated by non-dense regions. Density is measured by the number of points within a radius.
+
+- Advantages:
+  - Does not require a predefined number of clusters
+  - Clusters can have non-spherical shapes
+  - This technique allows to identify noise (outliers)
+- Disadvantages:
+  - If there is no density variation between clusters it fails
+  - It is sensitive to the parameters that define the density (frequently the radius -eps- and the minimum number of points -minPts-). Parameter adjustment requires expert knowledge of the domain (subject matter expertise)
+
+Some of the most popular are:
+
+ - **DBSCAN (density-based spatial clustering of applications with noise)**:considers that density is constant in the clusters
+ - **OPTICS (ordering points to identify the clustering structure)**: considers that density is not constant in the clusters
+
+# Clustering Wholesale Customers
+
+## Packages Installation
+
+R offers many different different libraries to calculate this example. We are not going to use them all, just some of them. First of all we load the libraries that we need:
+
+- **tidyverse**: to prepare the data using the set of libraries created by @Wickham2019
+- **naniar**: para understand data quality issues created by @Tierney2020
+- **fpc**: which includes additional functions to create clusters as well as to check their stability created by @Hennig2020
+- **factoextra**: to render clusters using the ggplot2 library created by @Kassambara2019
+- **GGally**: which includes additional functions such as plot a correlation matrix with ggplot2 created by @Schloerke2018
+- **dbscan**: includes density-based algorithms (in C++) created by @Hahsler2019
+- **densityClust**: includes a clustering algorithm based on fast search and find of density peaks created by @Pedersen2017
+- **NbClust**: helps us to find the optima number of clusters for centroid-based algorithms created by @Charrad2014
+- **ggfortify**: extends ggplot2 to present statistical outcomes created by @Tang2016
+- **clustertend**: helps in the *clustering tendency* assessment created by @YiLan2015
+- **cluster**: includes several relevant functions for cluster validation created by @Maechler2019
+- **clustMixType**: clustering algorithms that handle mixed datatypes created by @Szepannek2018
+
+dbscan library includes many different algorithms:
+
+- Clustering algorithms:
+  - DBSCAN: Density-based spatial clustering of applications with noise.
+  - HDBSCAN: Hierarchical DBSCAN with simplified hierarchy extraction.
+  - OPTICS/OPTICSXi: Ordering points to identify the clustering structure clustering algorithms.
+  - FOSC: Framework for Optimal Selection of Clusters for unsupervised and semisupervised clustering of hierarchical cluster tree.
+  - Jarvis-Patrick clustering
+  - SNN Clustering: Shared Nearest Neighbor Clustering.
+- Outliers detection: 
+  - LOF: Local outlier factor algorithm.
+  - GLOSH: Global-Local Outlier Score from Hierarchies algorithm.
+- Fast Nearest-Neighbor Search (using kd-trees)
+  - kNN search
+  - Fixed-radius NN search
+ 
+NbClust calculated the following indexes: "kl", "ch", "hartigan", "ccc", "scott", "marriot", "trcovw", "tracew", "friedman", "rubin", "cindex", "db", "silhouette", "duda", "pseudot2", "beale", "ratkowsky", "ball", "ptbiserial", "gap", "frey", "mcclain", "gamma", "gplus", "tau", "dunn", "hubert", "sdindex", "dindex", "sdbw", "all" (all indices except GAP, Gamma, Gplus and Tau), "alllong" (all indices with Gap, Gamma, Gplus and Tau included).
+ 
+The following code checks whether the libraries are installed or not, and once they are available it loads them into memory.
+
+```{r packages, warning=FALSE, message=FALSE}
+# Cleaning the environment
+rm(list=ls())
+
+# List of packages for session
+.packages <- c("tidyverse", "naniar", "densityClust", "dbscan", "factoextra","GGally","fpc","NbClust","ggfortify","clustertend", "cluster","clustMixType")
+
+# Install CRAN packages (if not already installed)
+.inst <- .packages %in% installed.packages()
+if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
+
+# Load packages into session 
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
+```
+
+## Data Preparation
+
+We will consider the following data set: [Wholesale customers Data Set](Abreu, N. (2011). *Analise do perfil do cliente Recheio e desenvolvimento de um sistema promocional. Mestrado em Marketing*, ISCTE-IUL, Lisbon)
+ 
+It contains the following attributes:
+
+ - **FRESH**: annual spending (m.u.) on fresh products (Continuous); 
+ - **MILK**: annual spending (m.u.) on milk products (Continuous); 
+ - **GROCERY**: annual spending (m.u.) on grocery products (Continuous); 
+ - **FROZEN**: annual spending (m.u.) on frozen products (Continuous) 
+ - **DETERGENTS_PAPER**: annual spending (m.u.) on detergents and paper products (Continuous) 
+ - **DELICATESSEN**: annual spending (m.u.) on and delicatessen products (Continuous); 
+ - **CHANNEL**: customers Channel - Horeca (Hotel/Restaurant/Café) or Retail channel (Category) 
+ - **REGION**: customers Region of Lisbon, Oporto or Other (Category) 
+
+First, we load the data:
+
+```{r, warning=FALSE, message=FALSE}
+(supermarket <- read_csv("data/s8.csv"))
+```
+
+We need a seed to reproduce our analysis:
+
+```{r}
+set.seed(42)
+```
+
+Before preparing the data, we must increase our understanding:
+
+```{r structure}
+supermarket %>% glimpse()
+```
+
+As it is possible to appreciate, we must transform channel and region into factors:
+
+```{r}
+supermarket$Channel <- supermarket$Channel %>% as.factor()
+supermarket$Region <- supermarket$Region %>% as.factor()
+```
+
+The next aspect that we can review are the main statistical values.
+
+```{r summary}
+supermarket %>% summary()
+```
+
+It is also interesting to review the correlation between numerical variables.
+
+```{r correlation}
+supermarket %>% select(-Channel, -Region) %>%  ggcorr(label = TRUE, label_size = 4, label_round = 2, size = 2)
+```
+
+Each one of the algorithms that we are going to use may require different specific data preparations. We will add them in the specific section.
+
+As starting point we will use only the numeric variables:
+
+```{r}
+supermarket_reduced <- supermarket %>% select(-Channel, -Region)
+```
+
+## Clustering
+
+### Clustering Tendency
+
+A good starting point is to discover if it makes sense to search for clusters. That means *clustering tendency*:
+
+```{r}
+hopkins(supermarket_reduced,n = nrow(supermarket_reduced)-1)
+```
+
+As the value is closer to 0, it makes sense to search for clusters.
+
+### PCA (Principal Component Analysis)
+
+Do we have too many variables? We use a technique call Principal Component Analysis. 
+
+**Principal component analysis** (or PCA), is a linear transformation of the data which looks for the axis where the data has the most variance. PCA will create new variables which are linear combinations of the original ones, these new variables will be orthogonal (i.e. correlation equals to zero). PCA can be seen as a rotation of the initial space to find more suitable axis to express the variability in the data.
+On the new variables have been created, you can select the most important ones. The threshold is up-to-you and depends on how much variance you want to keep.
+
+> *Note*: Since PCA is linear, it mostly works on linearly separable data. Hence, if you want to perform classification on non-linear data, linear PCA will probably make you lose a lot of information. There is another technique called kernel PCA that can work on nonlinearly separable data.
+
+What if we apply PCA to the whole data set:
+
+```{r pca}
+pca <- prcomp(supermarket_reduced, scale=TRUE)
+pca
+```
+
+```{r pca summary}
+summary(pca)
+```
+
+How many (pc) variables do we need to explain our data set:
+
+```{r pca plot}
+screeplot(pca, type="lines",col=3)
+```
+
+```{r pc1 vs pc2}
+autoplot(pca, data = supermarket)
+```
+
+Let's add some color:
+
+```{r}
+autoplot(pca, data = supermarket, colour = 'Channel')
+```
+
+One more graph (with eigenvalues):
+
+```{r}
+autoplot(pca, data = supermarket, colour = 'Channel', loadings = TRUE, loadings.colour = 'blue',
+         loadings.label = TRUE, loadings.label.size = 3)
+```
+
+### Clustering using k-means
+
+We need to scale the data to compare diferent magnitudes. This is call data normalization.
+
+```{r}
+df <- supermarket_reduced %>% scale()
+```
+
+We will use K-means for our analysis. We need to determine the right number of clusters. 
+
+**[Option 1]** Elbow method. The location of a bend (knee) in the plot is generally considered as an indicator of the appropriate number of clusters.
+
+```{r}
+fviz_nbclust(df, kmeans, method = "wss") +
+    geom_vline(xintercept = 2, linetype = 2)
+```
+
+Two clusters are suggested.
+
+**[Option 2]** Average silhouette method. Briefly, it measures the quality of a clustering. That is, it determines how well each object lies within its cluster. A high average silhouette width indicates a good clustering. The location of the maximum is considered as the appropriate number of clusters.
+
+```{r}
+fviz_nbclust(df, kmeans, method = "silhouette")
+```
+
+Two clusters are suggested.
+
+**[Option 3]** Nbclust. It provides 30 indices for determining the relevant number of clusters and proposes to users the best clustering scheme from the different results obtained by varying all combinations of number of clusters, distance measures, and clustering methods.
+
+```{r}
+res <- NbClust(df, diss=NULL, distance = "euclidean", min.nc=2, max.nc=20, 
+             method = "kmeans", index = "all")
+```
+
+```{r}
+fviz_nbclust(res) + theme_minimal() + labs(title="Optimal number of clusters")
+```
+
+According to the results, we can create 2, 4 or 3 clusters. Let's create two (the recommended option) and repeat the process 20 times:
+
+```{r}
+fit <- kmeans(df, centers = 2, nstart = 20)
+```
+
+What the fit object contains?
+
+```{r}
+fit$centers
+fit$size
+```
+
+We can understand the new groups using the average:
+
+```{r}
+clusters <- aggregate(supermarket_reduced,by=list(fit$cluster),FUN=mean)
+clusters
+```
+
+We can add back the segmentation to the original data set:
+
+```{r}
+supermarket_cluster <- data.frame(supermarket, cluster = fit$cluster)
+head(supermarket_cluster)
+```
+
+Let's make a plot:
+
+```{r}
+ggplot(supermarket_cluster, aes(Fresh, Detergents_Paper, color = as.factor(cluster))) + geom_point() +
+  labs(title = "Fresh vs. Detergent Paper Purchasing Scatterplot", x = "Fresh Purchasing", y = "Detergent Paper Purchasing", color = "Clusters")
+```
+
+Finally we need to assess the quality of our cluster. We will use the silhoutte analysis (a cluster validation approach that measures how well an observation is clustered and it estimates the average distance between clusters).
+
+```{r}
+sil <- silhouette(fit$cluster, dist(df))
+fviz_silhouette(sil)
+```
+
+We can observe that there are some observations placed in the wrong cluster (as the value is negative). We can indentify the observations with negative silhouette:
+
+```{r}
+neg_sil_index <- which(sil[, "sil_width"] < 0)
+sil[neg_sil_index, , drop = FALSE]
+```
+
+Are these clusters stable? Let's apply the assessment of the clusterwise stability of a clustering of data.
+
+```{r}
+cluster_boost <- clusterboot(df,B=100,bootmethod= c("boot","noise","jitter"),clustermethod=kmeansCBI,
+          krange=2)
+```
+
+The output is:
+
+```{r}
+print(cluster_boost)
+```
+
+### Clustering using dbscan
+
+This algorithm requires two parameters:
+
+ - **eps**: size of the epsilon neighborhood.
+ - **minPoints**: number of minimum points in the eps region (for core points). Default is 5 points.
+
+Some recommendations:
+
+ - eps: for very small values, many values won't be included into clusters and we will find many *outliers*.  For bgi values, clusters will be combined and then cluster stability will be lower.
+ - minPoints: in general, this parameter must verify $minPoints ≥ D + 1$. Minimum points: 3.
+ - We can use dbscan when the density is uniform between clusters.
+
+For more information, read @Ester1996.
+
+We are going to search a segmentation considering only the purchasing patterns. We are going to omit *Channel* y *Region*.
+
+```{r}
+customers <- df %>% as.data.frame()
+```
+
+We are going to consider eps=0.4, minPts=5 as starting values.
+
+```{r}
+dbscan::kNNdistplot(customers, k = 5)
+abline(h = 2, col = "red")
+```
+
+According to the chart, a value closer to 2 can be a good candidate for eps.
+
+Let's find the clusters:
+
+```{r}
+db_clusters_customers <- fpc::dbscan(customers, eps = 2, MinPts = 5, scale = TRUE)
+db_clusters_customers
+```
+
+We can create a chart (a projection considering the main principal components).
+
+```{r}
+fviz_cluster(db_clusters_customers, customers, ellipse = FALSE, geom = "point")
+```
+
+Let's review now the quality of our clusters. First we create the measures:
+
+```{r}
+cs <- cluster.stats(dist(customers), db_clusters_customers$cluster)
+```
+
+We are going to use: 
+
+ - within.cluster.ss () *within clusters sum of squares*): measures how close the objects are within the clusters; when we compare, lower values represent a higher concentration of objects.
+ - avg.silwidth (*average silhouette width*): measures not only how close the objects are within the clusters but also how far apart the clusters are; in essence it indicates the quality of the cluster. Normally the ranges are between 0 and 1, a value close to 1 suggests that the data has been better distributed in each cluster.
+
+In our case:
+
+```{r}
+cs[c("within.cluster.ss","avg.silwidth")]
+```
+
+Are the results stable? Let's apply the assessment of the clusterwise stability of a clustering of data.
+
+```{r}
+cluster_boost <- clusterboot(customers, clustermethod=dbscanCBI, eps = 2, MinPts = 5, scale = TRUE)
+```
+
+The output is:
+
+```{r}
+print(cluster_boost)
+```
+
+### Clustering using densityClust
+
+For the fast density algorithm, we must skip factor features as well as use matrix of distances:
+
+```{r}
+dataDist <- dist(df)
+```
+
+One of the parameters of this algorithm is distance cutoff, that can be calculated using the function estimateDc() and we follow an interative process to find the  parameter delta (*the threshold for minimum distance to higher density when detecting cluster peaks*).
+
+```{r}
+estimateDc(dataDist)
+```
+
+First we apply one time time:
+
+```{r}
+dataClust <- densityClust(dataDist, gaussian=TRUE)
+```
+
+We inspect clustering attributes to define thresholds
+
+```{r}
+plot(dataClust)
+```
+
+New we choose the delta parameter (*the threshold for minimum distance to higher density when detecting cluster peaks*) and we calculate again:
+
+```{r}
+dataClust <- findClusters(dataClust, rho=estimateDc(dataDist), delta=0.7)
+```
+
+The number of elements per cluster are:
+
+```{r}
+table(dataClust$clusters)
+```
+
+In this case, the evaluation metrics are:
+
+```{r}
+cs <- cluster.stats(dataDist, dataClust$clusters)
+cs[c("within.cluster.ss","avg.silwidth")]
+```
+
+And the projection is:
+
+```{r}
+plotMDS(dataClust)
+```
+
+that we can represent as well using TSNE:
+
+```{r}
+plotTSNE(dataClust)
+```
+
+Podemos romper los datos en función de los grupos:
+
+```{r}
+(supermarket_cluster <- cbind(supermarket, cluster=dataClust$clusters))
+```
+
+This algorithm is not supported by clusterboost() function yet.
+
+## Clustering with mixed types
+
+Many of the clustering algorithm require numbers. 
+
+When we have categories or factors, we must consider an algorithm that allows that can appropriately handle mixed datatypes. Some possibilities include the following:
+
+- Partitioning-based algorithms: k-Prototypes, Squeezer
+- Hierarchical algorithms: ROCK, Agglomerative single, average, and complete linkage
+- Density-based algorithms: HIERDENC, MULIC, CLIQUE
+- Model-based algorithms: SVM clustering, Self-organizing maps
+
+Another options is to used feature engineering to transform categorial or nominal attributes into numbers.
+
+For mixed data (both numeric and categorical variables), we will use k-prototypes which is basically combining k-means and k-modes clustering algorithms as example.
+
+### Preparing the data
+
+We must transform categories into factors and scale numbers:
+
+```{r}
+wholesale <- as.data.frame(cbind(Channel=supermarket$Channel, Region=supermarket$Region, df))
+wholesale$Channel <- wholesale$Channel %>% as.factor()
+wholesale$Region <- wholesale$Region %>% as.factor()
+```
+
+### Clusting with kproto
+
+First, we calculate optimal number of cluster
+
+```{r, messages=FALSE}
+k_opt <- silhouette_kproto(data = wholesale, k = 2:10, nstart = 5, verbose = FALSE)
+k_opt
+```
+
+First, we investigate the variables' variances/concentrations to support specification of lambda for k-prototypes clustering.
+
+```{r}
+a <- lambdaest(wholesale)
+```
+
+The second step is to apply the algorithm (considering the optimal number of clusters):
+
+```{r}
+res <- kproto(wholesale, k= 3, lambda = a)
+```
+
+```{r}
+summary(res)
+```
+
+Last, let's visualiza k-prototypes clustering result for cluster interpretation.
+
+```{r}
+clprofiles(res, wholesale)
+```
+
+Bringing all together:
+
+```{r}
+(supermarket_cluster <- cbind(supermarket, cluster=res$cluster))
+```
+
+# Exercises
+
+- Taking into considering the evaluation metrics, which algorithm does provide better results?
+- In k-means, try the other optimal number of clusters (4 and 3). Are you able to improve the *average silhouette width* metric? Are they more stable? Does it makes sense from the business point of view?
+- In dbscan, try other values for eps (considering the chart). Are you able to improve the *average silhouette width* metric? Does it makes sense from the business point of view?
+- In densityClust, try other values for delta (for instance 0.8 and 0.5). Are you able to improve the *average silhouette width* metric? Does it makes sense from the business point of view?
+  
+# References

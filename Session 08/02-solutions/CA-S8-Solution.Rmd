@@ -1,6 +1,6 @@
 ---
 title: "CA - S8: Solutions"
-author: Josep Curto, IE Business School
+author: "Josep Curto, IE Business School"
 abstract: "This document introduces how to calculate Customer Segmentation with R. In particular, with k-means."
 keywords: "r, customer segmentation"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
@@ -36,20 +36,14 @@ It contains the following attributes:
 rm(list=ls())
 
 # List of packages for session
-.packages = c("ggplot2", "NbClust","ggfortify","GGally","cluster","factoextra","clustertend")
+.packages <- c("ggplot2", "NbClust","ggfortify","GGally","cluster","factoextra","clustertend","fpc")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-suppressPackageStartupMessages(library(ggplot2))
-suppressPackageStartupMessages(library(NbClust))
-suppressPackageStartupMessages(library(ggfortify))
-suppressPackageStartupMessages(library(GGally))
-suppressPackageStartupMessages(library(cluster))
-suppressPackageStartupMessages(library(factoextra))
-suppressPackageStartupMessages(library(clustertend))
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 ```
 
 ## Loading data
@@ -226,6 +220,25 @@ neg_sil_index <- which(sil[, "sil_width"] < 0)
 sil[neg_sil_index, , drop = FALSE]
 ```
 
+# Cluster Stability
+
+Last aspect to check: Assessment of the clusterwise stability of a clustering of data.
+
+```{r message=FALSE, warning=FALSE}
+cluster_boost <- clusterboot(df,B=100,bootmethod=
+          c("boot","noise","jitter"),clustermethod=kmeansCBI,
+          krange=2,seed=42)
+```
+
+The output is:
+
+```{r}
+print(cluster_boost)
+```
+
+Basically, cluster 2 is very stable (elements in the cluster are similar), but cluster 1 no (elements in the cluster are not as similar, but very similar from 1).
+
+
 # Question 1
 
 **What happens if we consider 3 clusters?**
@@ -278,6 +291,17 @@ sil3[neg_sil_index3, , drop = FALSE]
 ```
 
 Response: According to silhouette analysis, this option is worse than having two clusters.
+
+In terms of stability:
+
+```{r}
+cluster_boost <- clusterboot(df,B=100,bootmethod=
+          c("boot","noise","jitter"),clustermethod=kmeansCBI,
+          krange=3,seed=42)
+print(cluster_boost)
+```
+
+For three clusters, cluster 1 is very stable, cluster 3 is less, but cluster 2 contains elements less similar in the cluster.
 
 # Question 2
 
@@ -332,6 +356,15 @@ sil19[neg_sil_index19, , drop = FALSE]
 
 Response: According to silhouette analysis, this option is worse than having two and three clusters.
 
+```{r}
+cluster_boost <- clusterboot(df,B=100,bootmethod=
+          c("boot","noise","jitter"),clustermethod=kmeansCBI,
+          krange=19,seed=42)
+print(cluster_boost)
+```
+
+For 19 clusters, there are many clusters that are not stable.
+
 # Question 3
 
 **What happens if we make the same analysis without the columns channel and region? Consider the following data frame**:
@@ -365,7 +398,7 @@ One more time, 2 is the optimal number.
 Let's find the clusters:
 
 ```{r}
-fit_2 <- kmeans(df, centers = 3, nstart = 20)
+fit_2 <- kmeans(df, centers = 2, nstart = 20)
 ```
 
 Let's review the silhouette:
@@ -375,10 +408,15 @@ sil_2 <- silhouette(fit_2$cluster, dist(df3))
 fviz_silhouette(sil_2)
 ```
 
+```{r}
+cluster_boost <- clusterboot(df3,B=100,bootmethod=
+          c("boot","noise","jitter"),clustermethod=kmeansCBI,
+          krange=2,seed=42)
+print(cluster_boost)
+```
+
 # Question 5
 
 **Which segmentation makes more sense (considering all columns or without channel and region)? Use silhouette analysis.**
 
 After all the analysis, it is clear the first analysis was the best one. It is clear that more work must be done to improve the silhouette value.
-
-

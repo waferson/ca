@@ -1,0 +1,211 @@
+---
+title: 'CA - S8: Hierarchical Clustering'
+author: "Josep Curto, IE Business School"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_notebook:
+    fig_caption: yes
+    self_contained: yes
+    toc: yes
+    toc_float: yes
+keywords: r, customer segmentation, hierarchical clustering
+abstract: This document introduces how to calculate Customer Segmentation with R.
+  In particular, with hierarchical clustering techniques.
+bibliography: hierarchicalClustering.bib
+---
+
+# Hierarchical Clustering
+
+**Hierarchical Clustering** is a type of technique that is mainly divided into: *agglomerative* (based on aggregation) and *divisive* (based on division).
+
+- *Agglomerative*: The starting point is to consider each value in the dataset as a cluster made up of an element. At each step, the two most similar clusters are combined into a larger cluster. The complete process ends when there is only one cluster that contains all the points. Also known as AGNES (*Agglomerative Nesting*).
+- *Divisive*: This algorithm follows the reverse process. We start from the total set. At each step, the most homogeneous clusters are separated into two. The complete process ends when we have achieved that each point is only part of a cluster. It is also known as DIANA (*Divise Analysis*).
+
+# Custering Airplanes
+
+## Packages Installation
+
+R offers many different different libraries to calculate this example. We are not going to use them all, just some of them. First of all we load the libraries that we need:
+
+- **tidyverse**: to prepare the data using the set of libraries created by @Wickham2019
+- **cluster**: which includes aggregation (agnes) and divisive (target) algorithms to be used created by @Maechler2019
+- **factoextra**: to render clusters using the ggplot2 library created by @Kassambara2019
+- **dendextend**: to manipulate dendograms created by @Galili2015
+- **fpc**: which includes additional functions to create clusters as well as to check their stability created by @Hennig2020
+- **GGally**: which includes additional functions such as plot a correlation matrix with ggplot2 created by @Schloerke2018
+
+The following code checks whether the libraries are installed or not, and once they are available it loads them into memory.
+
+```{r packages, warning=FALSE, message=FALSE}
+# Cleaning the environment
+rm(list=ls())
+
+# List of packages for session
+.packages <- c("tidyverse", "cluster", "factoextra","dendextend","fpc","GGally")
+
+# Install CRAN packages (if not already installed)
+.inst <- .packages %in% installed.packages()
+if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
+
+# Load packages into session 
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
+```
+
+## Data Preparation
+
+We are going to use a data set with airplane characteristics. Our goal is to identify if there are similar groups of planes. First, we load the data from the CSV:
+
+```{r, warning=FALSE, message=FALSE}
+(delta <- read_csv("data/delta.csv"))
+```
+
+We fix the seed to reproduce the analysis:
+
+```{r}
+set.seed(42)
+```
+
+Before preparing the data, we must increase our understanding:
+
+```{r}
+delta %>% glimpse()
+```
+
+As it is possible to appreciate, it is necessary to convert the last variables into factors (Wifi, Video, Power, Satellite, `Flat-bed`, Sleeper, Club, `First Class`, Business, `Eco Comfort`, Economy).
+
+```{r}
+delta$Wifi <- delta$Wifi %>% factor()
+delta$Video <- delta$Video %>% factor()
+delta$Power <- delta$Power %>% factor()
+delta$Satellite <- delta$Satellite %>% factor()
+delta$`Flat-bed` <- delta$`Flat-bed` %>% factor()
+delta$Sleeper <- delta$Sleeper %>% factor()
+delta$Club <- delta$Club %>% factor()
+delta$`Eco Comfort` <- delta$`Eco Comfort` %>% factor()
+delta$`First Class` <- delta$`First Class` %>% factor()
+delta$Business <- delta$Business %>% factor()
+delta$Economy <- delta$Economy %>% factor()
+delta$Aircraft <- delta$Aircraft %>% factor()
+```
+
+The next aspect that we can review are the main statistical values.
+
+```{r summary}
+delta %>% summary()
+```
+
+It is also interesting to review the correlation between numerical variables.
+
+```{r correlation}
+delta %>% select(-Aircraft, -Wifi, -Video, -Power, -Satellite, -`Flat-bed`, -Sleeper, -Club, -`First Class`, -Business, -`Eco Comfort`, -Economy) %>%  ggcorr(label = TRUE, label_size = 0.5, label_round = 2, size = 2)
+```
+
+When we only have numerical values, to apply this type of segmentation, we consider the registers with non-null values (in the case of having we have to apply criteria to fix this point), we scale the values and then we apply the method using the Euclidean distance (or equivalent distances)
+
+To apply this algorithm, in this case that we have combined values (factors and numbers), we must use a similarity metric that accepts all kinds of values: **Gower distance**.
+
+> The concept of Gower distance is actually quite simple. For each variable type, a particular distance metric that works well for that type is used and scaled to fall between 0 and 1. Then, a linear combination using user-specified weights (most simply an average) is calculated to create the final distance matrix. The metrics used for each data type are described below: (1) quantitative (interval): range-normalized Manhattan distance; (2) ordinal: variable is first ranked, then Manhattan distance is used with a special adjustment for ties; (3) nominal: variables of k categories are first converted into k binary columns and then the Dice coefficient is used.
+
+```{r, warning=FALSE, message=FALSE}
+df <- delta %>% na.omit() 
+gower.dist <- daisy(df[ ,2:34], metric = c("gower"))
+```
+
+The output is:
+
+```{r}
+summary(gower.dist)
+```
+
+## Agglomerative Hierarchical Clustering
+
+Agglomerative hierarchical clustering supports several **linkage** metrics. We can determine which is the best metric to create the cluster, using a quality metric (quantity of structure found):
+
+```{r}
+# methods to assess
+m <- c("average","single","complete","ward","weighted")
+names(m) <- c("average","single","complete","ward","weighted")
+
+# function to compute coefficient
+ac <- function(x) {
+  agnes(gower.dist, method = x)$ac
+}
+
+map_dbl(m, ac)
+```
+
+Now we can create the clusters and the dendogram for the best method (in this case, ward):
+
+```{r}
+hcAgnes <- agnes(gower.dist, method = "ward")
+dendAgnes <- hcAgnes %>% as.dendrogram()
+labels(dendAgnes) <- delta$Aircraft[order.dendrogram(dendAgnes)]
+fviz_dend(dendAgnes, cex = 0.3, main = "Agglomerative Hierarchical Clustering",
+          xlab = "Groups", ylab = "Distance", sub = "", horiz = TRUE)
+```
+
+And we can even consider potential clusters. Let's consider $k = 5$:
+
+```{r}
+fviz_dend(dendAgnes, cex = 0.3, main = "Agglomerative Hierarchical Clustering",
+          xlab = "Groups", ylab = "Distance", sub = "", horiz = TRUE, k=5)
+```
+
+Are these five clusters stable? Let's apply the assessment of the clusterwise stability of a clustering of data.
+
+```{r}
+cluster_boost <- clusterboot(gower.dist, clustermethod=hclustCBI, method="ward.D2",k=5)
+```
+
+The output is:
+
+```{r}
+print(cluster_boost)
+```
+
+## Divisive Hierarchical Clustering
+
+For this technique, we will use only one algorithm:
+
+```{r}
+# compute divisive hierarchical clustering
+hcDiana <- diana(as.matrix(gower.dist), diss = TRUE, keep.diss = TRUE)
+
+# Divise coefficient; amount of clustering structure found
+hcDiana$dc
+```
+
+Taking into consideration, it is clear that the previous clustering technique was better.
+
+We can create the clusters and the dendogram :
+
+```{r}
+dendDiana <- hcDiana %>% as.dendrogram()
+labels(dendDiana) <- delta$Aircraft[order.dendrogram(dendDiana)]
+fviz_dend(dendDiana, cex = 0.3, main = "Divisive Hierarchical Clustering",
+          xlab = "Groups", ylab = "Distance", sub = "", horiz = TRUE)
+```
+
+And we can even consider potential clusters. Let's consider $k = 5$:
+
+```{r}
+fviz_dend(dendDiana, cex = 0.3, main = "Divisive Hierarchical Clustering",
+          xlab = "Groups", ylab = "Distance", sub = "", horiz = TRUE, k=5)
+```
+
+## Comparing dendograms
+
+Are both results simular? Let's compare the dendograms:
+
+```{r}
+dendAgnes <- dendAgnes %>% set("labels_to_char")
+dendDiana <- dendDiana %>% set("labels_to_char")
+tanglegram(dendAgnes, dendDiana, main_left = 'Agnes', main_right = 'Diana', lab.cex = 0.3)
+```
+
+# Exercises
+
+ - Review the 5 clusters, do the results make sense (from the business point of view)?
+ - Consider 4 clusters instead of 4, execute the code again. Are we achieving more stability or less?
+ 
+# References
