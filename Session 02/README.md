@@ -39,16 +39,24 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
     - [rticles](https://github.com/rstudio/rticles)
 
 ### Recommended Books and guides
+
+#### Statistics
+
+  - [Statistical Thinking for the 21st Century](http://statsthinking21.org/index.html)
+  - [Probability and Bayesian Modeling](https://bayesball.github.io/BOOK/probability-a-measurement-of-uncertainty.html)
+
+#### R
   
   - [Getting Started in R](https://github.com/eddelbuettel/gsir-te/blob/master/Getting-Started-in-R.pdf)
-  - [Statistical Thinking for the 21st Century](http://statsthinking21.org/index.html)
   - [R notes for professionals](https://goalkicker.com/RBook/)
   - [Cookbook for R](http://www.cookbook-r.com)
   - [R Markdown: the definitive guide](https://bookdown.org/yihui/rmarkdown/)
+ 
+#### Data Visualization
+ 
   - [Kieran Healy, H. 2018. Data Visualization: A practical introduction. Princeton](http://socviz.co)
   - [Data + Design](https://infoactive.co/data-design/titlepage01.html)
   - [Visualizing Data](http://www.visualisingdata.com/resources/)
   - [The Extreme Presentation™ Method](https://extremepresentation.com)
   - [from Data to Viz](https://www.data-to-viz.com)
   - [BBC Visual and Data Journalism cookbook for R graphics](https://bbc.github.io/rcookbook/)
-
