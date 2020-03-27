@@ -2,8 +2,8 @@
 # IE Business School
 # Customer Analytics
 # S9 - Cohort Analysis
-# @JosepCurto | jcurto@faculty.ie.edu | 2018
-# Version: 1.9
+# @JosepCurto | jcurto@faculty.ie.edu | 2020
+# Version: 2.0
 #############################################################################
 
 # Clear console
@@ -16,14 +16,14 @@ graphics.off()
 rm(list=ls())
 
 # List of packages for session
-.packages = c("readxl", "dplyr", "reshape","ggplot2")
+.packages <- c("readxl", "dplyr", "reshape","ggplot2")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-lapply(.packages, require, character.only=TRUE)
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 
 # Load data into a dataframe
 df <- read_excel("data/s9.xlsx", sheet="2016")

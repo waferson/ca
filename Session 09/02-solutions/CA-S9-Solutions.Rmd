@@ -1,12 +1,15 @@
 ---
 title: "CA - S9: Example"
-author: Josep Curto, IE Business School
-date: 2017
-output: 
-  html_notebook: 
+author: "Josep Curto, IE Business School"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_notebook:
     fig_caption: yes
+    self_contained: yes
     toc: yes
     toc_float: yes
+keywords: r, customer segmentation, cohort analysis
+abstract: This document introduces how to calculate Cohort Analysis with R.
 ---
 
 # Calculate Cohort Analysis with R
@@ -18,17 +21,14 @@ output:
 rm(list=ls())
 
 # List of packages for session
-.packages = c("readxl", "dplyr", "reshape","ggplot2")
+.packages <- c("readxl", "dplyr", "reshape","ggplot2")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-suppressPackageStartupMessages(library(readxl))
-suppressPackageStartupMessages(library(dplyr))
-suppressPackageStartupMessages(library(reshape))
-suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 ```
 
 ## Loading data
@@ -131,5 +131,3 @@ and second:
 p3 <- ggplot(df_finished_ratio.chart, aes(x=Cohort, y=Ratio, group=Day, colour=Day))
 p3 + geom_line() + ggtitle('Completition Ratio per day and cohort')
 ```
-
-**Exercise: Let's do the same analysis for 2017.**

@@ -1,12 +1,15 @@
 ---
-title: "CA - S9: Example"
-author: Josep Curto, IE Business School
+title: 'CA - S9: Example'
+author: "Josep Curto, IE Business School"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
-output: 
-  html_notebook: 
+output:
+  html_notebook:
     fig_caption: yes
+    self_contained: yes
     toc: yes
     toc_float: yes
+keywords: r, customer segmentation, cohort analysis
+abstract: This document introduces how to calculate Cohort Analysis with R.
 ---
 
 # Calculate Cohort Analysis with R
@@ -18,17 +21,14 @@ output:
 rm(list=ls())
 
 # List of packages for session
-.packages = c("readxl", "dplyr", "reshape","ggplot2")
+.packages <- c("readxl", "dplyr", "reshape","ggplot2")
 
 # Install CRAN packages (if not already installed)
 .inst <- .packages %in% installed.packages()
 if(length(.packages[!.inst]) > 0) install.packages(.packages[!.inst])
 
 # Load packages into session 
-suppressPackageStartupMessages(library(readxl))
-suppressPackageStartupMessages(library(dplyr))
-suppressPackageStartupMessages(library(reshape))
-suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(invisible(lapply(.packages, library, character.only = TRUE)))
 ```
 
 ## Loading data

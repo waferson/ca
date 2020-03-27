@@ -1,13 +1,15 @@
 ---
 title: "CA - S9: homework"
-author: Josep Curto
-date: 2018
-output: 
-  html_notebook: 
+author: "Josep Curto, IE Business School"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_notebook:
     fig_caption: yes
+    self_contained: yes
     toc: yes
-    toc_depth: 4
     toc_float: yes
+keywords: r, customer segmentation, cohort analysis
+abstract: This document contains the homework exercises
 ---
 
 # Exercises
