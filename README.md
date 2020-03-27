@@ -14,7 +14,7 @@ Each session may contain:
   - articles
   - books
 
-## Software Installation
+## Software Installation {.tabset}
 
 We will use R and Rstudio. In some sessions, we will use additional packages for R.
 
