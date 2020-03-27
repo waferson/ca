@@ -14,7 +14,7 @@ Each session may contain:
   - articles
   - books
 
-## Software Installation {.tabset}
+## Software Installation
 
 We will use R and Rstudio. In some sessions, we will use additional packages for R.
 
@@ -28,6 +28,8 @@ We will use R and Rstudio. In some sessions, we will use additional packages for
   - [Mac] Download clang 7 and gfortran 6.1 as well from [here](https://cloud.r-project.org/bin/macosx/tools/)
 
 **Install Rstudio**
+
+We recommend Rstudio, an Interactive Development Environment (IDE) with lots of features that makes R easier to use:
 
   - Download Rstudio Desktop from https://www.rstudio.com/products/rstudio/download/#download (in our case version 1.2.5033)
 
