@@ -51,6 +51,8 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
   - [R notes for professionals](https://goalkicker.com/RBook/)
   - [Cookbook for R](http://www.cookbook-r.com)
   - [R Markdown: the definitive guide](https://bookdown.org/yihui/rmarkdown/)
+  - [RMarkdown for Scientists](https://rmd4sci.njtierney.com)
+  - [RStudio Education](https://education.rstudio.com)
  
 #### Data Visualization
  
