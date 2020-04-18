@@ -25,7 +25,8 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
 
 ### Tidyverse
 
-  - [Tidyverse](https://www.tidyverse.org)  
+  - [Tidyverse](https://www.tidyverse.org) 
+    - [The tidyverse style guide](https://style.tidyverse.org/index.html)
   - [ggplot2](https://ggplot2.tidyverse.org)
     - [ggplot2 extensions](http://www.ggplot2-exts.org)
     - [ggplot2 tutorial](http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html)
