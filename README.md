@@ -31,7 +31,7 @@ We will use R and Rstudio. In some sessions, we will use additional packages for
 
 We recommend Rstudio, an Interactive Development Environment (IDE) with lots of features that makes R easier to use:
 
-  - Download Rstudio Desktop from https://www.rstudio.com/products/rstudio/download/#download (in our case version 1.2.5033)
+  - Download Rstudio Desktop from https://www.rstudio.com/products/rstudio/download/#download (in our case version 1.2.5042)
 
 **Optional**
 
