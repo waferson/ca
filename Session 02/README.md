@@ -10,6 +10,13 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
   - homework
   - book
   
+It is recommended to watch the following videos:
+
+- https://vimeo.com/404835836
+- https://vimeo.com/404834895
+- https://vimeo.com/409600785
+- https://vimeo.com/409615087
+
 ## References
 
 ### How to keep you updated about R and RStudio
