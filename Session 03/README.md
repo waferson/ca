@@ -9,6 +9,8 @@ The topic of this session is **R**. We will introduce [R](https://www.r-project.
   - exercises
   - solutions
   - homework
+  
+It is recommended to watch the following video: https://vimeo.com/410043306 
 
 ## References
 
