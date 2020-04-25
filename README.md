@@ -16,7 +16,7 @@ Each session may contain:
 
 ## Vimeo Channel
 
-In this channel, you can find all the public videos: https://vimeo.com/channels/1573371/page:1
+In this channel, you can find all the public videos: https://vimeo.com/channels/1573371
 
 ## Software Installation
 
