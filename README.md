@@ -14,6 +14,10 @@ Each session may contain:
   - articles
   - books
 
+## Vimeo Channel
+
+In this channel, you can find all the public videos: https://vimeo.com/channels/1573371/page:1
+
 ## Software Installation
 
 We will use R and Rstudio. In some sessions, we will use additional packages for R.
