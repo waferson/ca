@@ -10,6 +10,7 @@ The topic of this session is **NPS**. This repository includes the content discu
   - homework
   - articles
   - alternatives
+  - video: NPS - https://vimeo.com/411647934
 
 ## References
   
