@@ -8,6 +8,7 @@ The topic of this session is **RFM**. This repository includes the content discu
   - exercises
   - solutions
   - homework
+  - video: RFM Analysis - https://vimeo.com/411268731
   
  ## References
  
