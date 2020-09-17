@@ -42,7 +42,8 @@ It is recommended to watch the following videos:
 
   - [Rmarkdown](https://rmarkdown.rstudio.com)
   - [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
-  - [Rmarkdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+  - [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)
+  - [Rmarkdown cheatsheet](https://rstudio.com/resources/cheatsheets/)
   - Templates:
     - [rticles](https://github.com/rstudio/rticles)
 
