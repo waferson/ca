@@ -26,7 +26,7 @@ We will use R and Rstudio. In some sessions, we will use additional packages for
 
 **Install R**
 
-  - Download R from: https://www.r-project.org (in our case version 4.0.0): [Windows](https://cloud.r-project.org/bin/windows/), [Mac](https://cloud.r-project.org/bin/macosx/)
+  - Download R from: https://www.r-project.org (in our case version 4.0.3): [Windows](https://cloud.r-project.org/bin/windows/), [Mac](https://cloud.r-project.org/bin/macosx/)
   - Choose any mirror for downloading (for example [cloud.r](https://cloud.r-project.org))
   - Install and follow the instructions
   - [Mac] Download clang 8.0.0 and gfortran 6.1 as well from [here](https://cloud.r-project.org/bin/macosx/tools/)
